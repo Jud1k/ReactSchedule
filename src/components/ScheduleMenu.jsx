@@ -2,7 +2,7 @@ import "cally";
 
 function ScheduleMenu(){
     return(
-        <div className='flex flex-col gap-4'>
+        <div className='gap-4'>
             <div className="dropdown dropdown-start ">
                 <div tabIndex={0} role="button" className="btn m-1 bg-base-100 border border-base-300 shadow-lg rounded-box">Выберите группу⬇️</div>
                 <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
