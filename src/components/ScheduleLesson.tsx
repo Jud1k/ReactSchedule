@@ -1,10 +1,29 @@
 import { useEffect, useState } from "react";
 import LessonCard from "./LessonCard";
 
-export default function ScheduleLesson({groupId}) {
+// Типы для временных слотов
+interface TimeSlot {
+  id: number;
+  duration: string;
+}
+
+// Типы для данных урока с сервера
+interface Lesson {
+  time_id: number;
+  subject: string;
+  room: string;
+  teacher: string;
+  type_lesson: string;
+}
+
+// Пропсы компонента
+interface ScheduleLessonProps {
+  groupId: string | number; // Можно уточнить тип в зависимости от API
+}
+export default function ScheduleLesson({ groupId }: ScheduleLessonProps) {
   // Все возможные временные слоты (6 штук)
 
-  const timeSlots = [
+  const timeSlots: TimeSlot[] = [
     { id: 1, duration: "9:00-10:35" },
     { id: 2, duration: "10:45-12:20" },
     { id: 3, duration: "13:20-14:55" },
@@ -13,13 +32,15 @@ export default function ScheduleLesson({groupId}) {
     { id: 6, duration: "18:40-20:15" },
   ];
 
-  const [lessons, setLessons] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [lessons, setLessons] = useState<Lesson[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     const fetchLessons = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/schedule/lessons/?group_id=${groupId}`);
+        const response = await fetch(
+          `http://localhost:8000/schedule/lessons/?group_id=${groupId}`
+        );
         if (!response.ok) {
           throw new Error("Error loading data");
         }

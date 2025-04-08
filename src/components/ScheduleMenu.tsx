@@ -1,11 +1,19 @@
 import "cally";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect,useState } from "react";
 
-export default function ScheduleMenu({ onGroupSelect }) {
-  const [groups, setGroups] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setErorr] = useState(null);
+interface Group{
+  id:number
+  name:string
+}
+
+interface ScheduleMenuProps{
+  onGroupSelect:(groupId:number)=>void
+}
+
+export default function ScheduleMenu({ onGroupSelect }:ScheduleMenuProps) {
+  const [groups, setGroups] = useState<Group[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setErorr] = useState<string|null>(null);
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -61,7 +69,7 @@ export default function ScheduleMenu({ onGroupSelect }) {
           ))}
         </ul>
       </div>
-      <calendar-date class="cally bg-base-100 border border-base-300 shadow-lg rounded-box">
+      {/* <calendar-date class="cally bg-base-100 border border-base-300 shadow-lg rounded-box">
         <svg
           aria-label="Previous"
           className="fill-current size-4"
@@ -81,7 +89,7 @@ export default function ScheduleMenu({ onGroupSelect }) {
           <path fill="currentColor" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
         </svg>
         <calendar-month></calendar-month>
-      </calendar-date>
+      </calendar-date> */}
     </div>
   );
 }

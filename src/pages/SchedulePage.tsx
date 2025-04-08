@@ -1,10 +1,12 @@
 import ScheduleLesson from "../components/ScheduleLesson";
 import ScheduleMenu from "../components/ScheduleMenu";
-import Layout from "../components/Layout/Layout";
-import { useState, useEffect } from "react";
+import { Layout } from "../components/Layout/Layout";
+import { useState } from "react";
 
 export default function SchedulePage() {
-  const [selectedGroupId, setSelectedGroupId] = useState(null);
+  const [selectedGroupId, setSelectedGroupId] = useState<
+    number | string | null
+  >(null);
 
   return (
     <Layout>

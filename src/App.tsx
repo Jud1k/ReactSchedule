@@ -1,4 +1,4 @@
-import SchedulePage from './pages/SchedulePage.jsx'
+import SchedulePage from './pages/SchedulePage'
 
 function App() {
   return (
