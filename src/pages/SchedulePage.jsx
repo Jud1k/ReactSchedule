@@ -1,22 +1,35 @@
-import ScheduleLesson from "../components/ScheduleLesson"
-import ScheduleMenu from "../components/ScheduleMenu"
-import Layout from "../components/Layout/Layout"
-
+import ScheduleLesson from "../components/ScheduleLesson";
+import ScheduleMenu from "../components/ScheduleMenu";
+import Layout from "../components/Layout/Layout";
+import { useState, useEffect } from "react";
 
 export default function SchedulePage() {
+  const [selectedGroupId, setSelectedGroupId] = useState(null);
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-6">
-        <div className="flex flex-col md:flex-row gap-6 justify-center">
-         <div className="flex-1 max-w-1/3">
-            <ScheduleLesson />
+      <div className="container mx-auto px-4 py-6 max-w-6xl">
+        <div className="flex flex-col md:flex-row gap-8 justify-center">
+          {/* Блок с расписанием (центр-лево) */}
+          <div className="md:w-3/5 lg:w-2/3 md:pr-8">
+            {selectedGroupId ? (
+              <ScheduleLesson groupId={selectedGroupId} />
+            ) : (
+              <div className="flex justify-center items-center h-64">
+                <p className="text-lg text-center">
+                  Выберите группу для отображения расписания
+                </p>
+              </div>
+            )}
           </div>
-        {/* Колонка с меню */}
-        <div className="md:w-64 flex flex-col gap-4">
-            <ScheduleMenu />
+
+          {/* Блок с меню (центр-право) */}
+          <div className="md:w-2/5 lg:w-1/3 max-w-md mx-auto md:mx-0 sticky top-4">
+            <div className="bg-base-100 p-6 rounded-xl shadow-sm">
+              <ScheduleMenu onGroupSelect={setSelectedGroupId} />
+            </div>
           </div>
-      </div>
+        </div>
       </div>
     </Layout>
   );
