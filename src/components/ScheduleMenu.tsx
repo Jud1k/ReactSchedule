@@ -1,18 +1,20 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
+import { Calendar } from "./Calendar";
 
-interface Group{
-  id:number
-  name:string
+interface Group {
+  id: number;
+  name: string;
 }
 
-interface ScheduleMenuProps{
-  onGroupSelect:(groupId:number)=>void
+interface ScheduleMenuProps {
+  onGroupSelect: (groupId: number) => void;
+  onDaySelect:(dayWeek:number)=>void;
 }
 
-export default function ScheduleMenu({ onGroupSelect }:ScheduleMenuProps) {
+export default function ScheduleMenu({ onGroupSelect,onDaySelect }: ScheduleMenuProps) {
   const [groups, setGroups] = useState<Group[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setErorr] = useState<string|null>(null);
+  const [error, setErorr] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -33,11 +35,7 @@ export default function ScheduleMenu({ onGroupSelect }:ScheduleMenuProps) {
   }, []);
 
   if (isLoading) {
-    return (
-      <div className="btn m-1 bg-base-100 border border-base-300 shadow-lg rounded-box">
-        Загрузка...
-      </div>
-    );
+    return <span className="loading loading-spinner text-success"></span>;
   }
   if (error) {
     return (
@@ -67,7 +65,8 @@ export default function ScheduleMenu({ onGroupSelect }:ScheduleMenuProps) {
             </li>
           ))}
         </ul>
-      </div>     
+      </div>
+      <Calendar onDaySelect={onDaySelect}/>
     </div>
   );
 }

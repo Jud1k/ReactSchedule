@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import LessonCard from "./LessonCard";
 
 // Типы для временных слотов
@@ -14,13 +14,15 @@ interface Lesson {
   room: string;
   teacher: string;
   type_lesson: string;
+  day_week:number;
 }
 
 // Пропсы компонента
 interface ScheduleLessonProps {
   groupId: string | number; // Можно уточнить тип в зависимости от API
+  dayWeek:number|null;
 }
-export default function ScheduleLesson({ groupId }: ScheduleLessonProps) {
+export default function ScheduleLesson({ groupId,dayWeek }: ScheduleLessonProps) {
   // Все возможные временные слоты (6 штук)
 
   const timeSlots: TimeSlot[] = [
@@ -55,12 +57,12 @@ export default function ScheduleLesson({ groupId }: ScheduleLessonProps) {
     fetchLessons();
   }, [groupId]);
 
+  const filtredLessons = useMemo(()=>{
+    return lessons?.filter(lesson=>lesson.day_week === dayWeek) || []
+  },[lessons,dayWeek])
+
   if (isLoading) {
-    return (
-      <div className="btn m-1 bg-base-100 border border-base-300 shadow-lg rounded-box">
-        Загрузка...
-      </div>
-    );
+    return <span className="loading loading-spinner text-success"></span>;
   }
 
   if (error) {
@@ -76,13 +78,13 @@ export default function ScheduleLesson({ groupId }: ScheduleLessonProps) {
       <div className="flex flex-col gap-4">
         {timeSlots.map((timeSlot) => {
           // Проверяем, есть ли карточка для этого времени
-          const lessonForSlot = lessons.find(
+          const lessonForSlot = filtredLessons.find(
             (lesson) => lesson.time_id === timeSlot.id
           );
 
           return (
             <div
-              key={`time-slot-${timeSlot.id}`}
+              key={timeSlot.id}
               className="flex flex-col gap-2"
             >
               {/* Время (всегда отображается) */}

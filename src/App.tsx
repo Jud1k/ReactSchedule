@@ -1,9 +1,11 @@
-import SchedulePage from './pages/SchedulePage'
+import HomePage from "./pages/HomePage";
+import SchedulePage from "./pages/SchedulePage";
 
 function App() {
   return (
-   <SchedulePage />
-  )
+    <SchedulePage />
+    // <HomePage />
+  );
 }
 
-export default App
+export default App;
