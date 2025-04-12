@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Calendar } from "./Calendar";
+import { useNavigate } from "react-router-dom";
 
 interface Group {
   id: number;
@@ -7,12 +8,16 @@ interface Group {
 }
 
 interface ScheduleMenuProps {
-  onGroupSelect: (groupId: number) => void;
-  onDaySelect:(dayWeek:number)=>void;
+  currentGroup?: string;
+  onDaySelect: (dayWeek: number) => void;
 }
 
-export default function ScheduleMenu({ onGroupSelect,onDaySelect }: ScheduleMenuProps) {
+export default function ScheduleMenu({
+  currentGroup,
+  onDaySelect,
+}: ScheduleMenuProps) {
   const [groups, setGroups] = useState<Group[]>([]);
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setErorr] = useState<string | null>(null);
 
@@ -33,6 +38,10 @@ export default function ScheduleMenu({ onGroupSelect,onDaySelect }: ScheduleMenu
     };
     fetchGroups();
   }, []);
+
+  const handleGroupSelect = (groupId: number) => {
+    navigate(`/schedule/${groupId}`);
+  };
 
   if (isLoading) {
     return <span className="loading loading-spinner text-success"></span>;
@@ -61,12 +70,12 @@ export default function ScheduleMenu({ onGroupSelect,onDaySelect }: ScheduleMenu
         >
           {groups.map((group) => (
             <li key={group.id}>
-              <a onClick={() => onGroupSelect(group.id)}>{group.name}</a>
+              <a onClick={()=>handleGroupSelect(group.id)}>{group.name}</a>
             </li>
           ))}
         </ul>
       </div>
-      <Calendar onDaySelect={onDaySelect}/>
+      <Calendar onDaySelect={onDaySelect} />
     </div>
   );
 }

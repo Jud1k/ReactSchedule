@@ -5,7 +5,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     <div className="flex flex-col min-h-screen">
       <header className="navbar bg-base-100 shadow-sm">
         <div className="flex-1">
-          <a className="btn btn-ghost text-xl">ЛесТех</a>
+          <a href="/"className="btn btn-ghost text-xl">ЛесТех</a>
         </div>
         <div className="flex gap-2">
           <input
