@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { Calendar } from "./Calendar";
-import { useNavigate } from "react-router-dom";
+import Calendar from "./Calendar";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import Search from "./Search";
+import useDebounce from "./useDebounce";
 
 interface Group {
   id: number;
@@ -8,39 +10,47 @@ interface Group {
 }
 
 interface ScheduleMenuProps {
-  currentGroup?: string;
   onDaySelect: (dayWeek: number) => void;
 }
 
 export default function ScheduleMenu({
-  currentGroup,
   onDaySelect,
 }: ScheduleMenuProps) {
   const [groups, setGroups] = useState<Group[]>([]);
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setErorr] = useState<string | null>(null);
+  const [groupName,setGroupName] = useState("")
+  const [searchTerm, setSearchTerm] = useState("");
+  const [resetCalendar,setResetCalendar] = useState(false)
+  const [debouncedSearchTerm] = useDebounce(searchTerm, 500);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSearch = async (term: string) => {
+    if (!term) {
+      setGroups([]);
+      return;
+    }
+    try {
+      const response = await fetch(
+        `http://localhost:8000/group/search?query=${term}`
+      );
+      const data = await response.json();
+      setGroups(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unknown error");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchGroups = async () => {
-      try {
-        const response = await fetch("http://localhost:8000/group/");
-        if (!response.ok) {
-          throw new Error("Erorr loading data");
-        }
-        const data = await response.json();
-        setGroups(data);
-      } catch (err) {
-        setErorr(err instanceof Error ? err.message : "Unknown error");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchGroups();
-  }, []);
+    handleSearch(debouncedSearchTerm);
+  }, [debouncedSearchTerm]);
 
-  const handleGroupSelect = (groupId: number) => {
-    navigate(`/schedule/${groupId}`);
+  const handleGroupSelect = (groupId: number,groupName:string) => {
+    setSearchParams({group:groupId.toString()})
+    setGroupName(groupName)
+    setResetCalendar(prev=>!prev)
   };
 
   if (isLoading) {
@@ -55,27 +65,10 @@ export default function ScheduleMenu({
   }
 
   return (
-    <div className="gap-4">
-      <div className="dropdown dropdown-start ">
-        <div
-          tabIndex={0}
-          role="button"
-          className="btn m-1 bg-base-100 border border-base-300 shadow-lg rounded-box"
-        >
-          Выберите группу⬇️
-        </div>
-        <ul
-          tabIndex={0}
-          className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
-        >
-          {groups.map((group) => (
-            <li key={group.id}>
-              <a onClick={()=>handleGroupSelect(group.id)}>{group.name}</a>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <Calendar onDaySelect={onDaySelect} />
+    <div>{groupName && 
+      <span className="badge badge-xl badge-success mb-5">{groupName}</span>}
+      <Search groups={groups} onSearch={setSearchTerm} onSelect={handleGroupSelect} />
+      <Calendar onDaySelect={onDaySelect} resetTrigger={resetCalendar}/>
     </div>
   );
 }
