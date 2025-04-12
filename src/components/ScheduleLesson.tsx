@@ -14,15 +14,18 @@ interface Lesson {
   room: string;
   teacher: string;
   type_lesson: string;
-  day_week:number;
+  day_week: number;
 }
 
 // Пропсы компонента
 interface ScheduleLessonProps {
-  groupId: string | number; // Можно уточнить тип в зависимости от API
-  dayWeek:number|null;
+  groupId: string; 
+  dayWeek: number | null;
 }
-export default function ScheduleLesson({ groupId,dayWeek }: ScheduleLessonProps) {
+export default function ScheduleLesson({
+  groupId,
+  dayWeek,
+}: ScheduleLessonProps) {
   // Все возможные временные слоты (6 штук)
 
   const timeSlots: TimeSlot[] = [
@@ -57,9 +60,9 @@ export default function ScheduleLesson({ groupId,dayWeek }: ScheduleLessonProps)
     fetchLessons();
   }, [groupId]);
 
-  const filtredLessons = useMemo(()=>{
-    return lessons?.filter(lesson=>lesson.day_week === dayWeek) || []
-  },[lessons,dayWeek])
+  const filtredLessons = useMemo(() => {
+    return lessons?.filter((lesson) => lesson.day_week === dayWeek) || [];
+  }, [lessons, dayWeek]);
 
   if (isLoading) {
     return <span className="loading loading-spinner text-success"></span>;
@@ -83,10 +86,7 @@ export default function ScheduleLesson({ groupId,dayWeek }: ScheduleLessonProps)
           );
 
           return (
-            <div
-              key={timeSlot.id}
-              className="flex flex-col gap-2"
-            >
+            <div key={timeSlot.id} className="flex flex-col gap-2">
               {/* Время (всегда отображается) */}
               <div className="badge badge-lg badge-success self-start">
                 {timeSlot.duration}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import * as calendar from "./calendar";
 
@@ -8,9 +8,10 @@ interface CalendarProps {
   weekDaysNames?: string[];
   onChange?: (date: Date, dayWeek?: number) => void;
   onDaySelect: (dayWeek: number) => void;
+  resetTrigger?: boolean;
 }
 
-export const Calendar: React.FC<CalendarProps> = ({
+export default function Calendar({
   date = new Date(),
   monthNames = [
     "Январь",
@@ -29,8 +30,8 @@ export const Calendar: React.FC<CalendarProps> = ({
   weekDaysNames = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"],
   onChange = () => {},
   onDaySelect = () => {},
-}) => {
-  const [currentDate] = useState(new Date());
+  resetTrigger = false,
+}: CalendarProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [currentMonth, setCurrentMonth] = useState(date.getMonth());
 
@@ -38,9 +39,16 @@ export const Calendar: React.FC<CalendarProps> = ({
 
   const monthData = calendar.getMonthData(currentYear, currentMonth);
 
+  useEffect(() => {
+    const today = new Date();
+    setSelectedDate(today);
+    setCurrentMonth(today.getMonth());
+    onDaySelect(today.getDay());
+    onChange(today);
+  }, [resetTrigger]);
+
   const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCurrentMonth(Number(e.target.value));
-    console.log(e.target.value);
   };
   const handleDateClick = (date: Date) => {
     setSelectedDate(date);
@@ -55,7 +63,7 @@ export const Calendar: React.FC<CalendarProps> = ({
         <select
           value={currentMonth}
           onChange={handleMonthChange}
-          className="select select-success"
+          className="select select-success w-full"
         >
           {monthNames.map((name, index) => (
             <option key={name} value={index}>
@@ -64,22 +72,33 @@ export const Calendar: React.FC<CalendarProps> = ({
           ))}
         </select>
       </header>
-      <div className="overflow-x-auto">
-        <table className="table-md">
+      <div className="overflow-x-auto ">
+        <table className="table w-full border-separate border-spacing-y-3">
           <thead>
             <tr>
               {weekDaysNames.map((day) => (
-                <th key={day}>{day}</th>
+                <th key={day} className="p-1 text-base-content">
+                  {day}
+                </th>
               ))}
             </tr>
           </thead>
           <tbody>
             {monthData.map((week, weekIndex) => (
-              <tr key={weekIndex}>
+              <tr key={weekIndex} className="hover:bg-inherit">
                 {week.map((date, dayIndex) => (
-                  <td key={dayIndex}>
+                  <td key={dayIndex} className="p-0">
                     {date && (
-                      <button className="btn btn-md" onClick={()=>handleDateClick(date)}>{date?.getDate()}</button>
+                      <button
+                        className={`btn btn-md h-10 w-10 ${
+                          calendar.areEqual(date, selectedDate)
+                            ? "border-accent"
+                            : ""
+                        }`}
+                        onClick={() => handleDateClick(date)}
+                      >
+                        {date?.getDate()}
+                      </button>
                     )}
                   </td>
                 ))}
@@ -90,4 +109,4 @@ export const Calendar: React.FC<CalendarProps> = ({
       </div>
     </div>
   );
-};
+}
