@@ -34,7 +34,6 @@ export default function Calendar({
 }: CalendarProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [currentMonth, setCurrentMonth] = useState(date.getMonth());
-
   const currentYear = date.getFullYear();
 
   const monthData = calendar.getMonthData(currentYear, currentMonth);

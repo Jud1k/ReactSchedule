@@ -1,4 +1,3 @@
-import { group } from "console";
 import React, { useState, useRef, useEffect } from "react";
 
 interface Group {
@@ -10,9 +9,17 @@ interface SearchProps {
   groups: Group[];
   onSearch: (term: string) => void;
   onSelect: (groupId: number, groupName: string) => void;
+  isLoading: boolean;
+  hasSearchTerm: boolean;
 }
 
-export default function ({ groups, onSearch, onSelect }: SearchProps) {
+export default function ({
+  groups,
+  onSearch,
+  onSelect,
+  isLoading,
+  hasSearchTerm,
+}: SearchProps) {
   const [inputValue, setInputValue] = useState("");
   const [isListOpen, setIsListOpen] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
@@ -50,7 +57,10 @@ export default function ({ groups, onSearch, onSelect }: SearchProps) {
     setInputValue("");
   };
 
-  const shouldShowList = isListOpen && groups.length > 0 && !selectedGroup;
+  const shouldShowList =
+    isListOpen &&
+    (isLoading || (hasSearchTerm && !isLoading));
+  const noResults = groups.length === 0 && !isLoading && hasSearchTerm;
 
   return (
     <div className="relative mb-4" ref={dropdownRef}>
@@ -63,18 +73,28 @@ export default function ({ groups, onSearch, onSelect }: SearchProps) {
         onClick={() => setIsListOpen(true)}
       />
       {shouldShowList && (
-        <div className="absolute z-10 mt-1 w-full shadow-lg rounded-lg border bg-primary-content border-gray-200 max-h-48 overflow-y-auto">
-          <ul className="divide-y divide-gray-200">
-            {groups.map((group) => (
-              <li
-                key={group.id}
-                className="p-3 hover:bg-amber-50 cursor-pointer"
-                onClick={() => handleGroupSelect(group.id, group.name)}
-              >
-                {group.name}
-              </li>
-            ))}
-          </ul>
+        <div className="absolute z-10 mt-1 w-full shadow-lg rounded-lg border bg-base-100 border-gray-200 max-h-48 overflow-y-auto">
+          {isLoading ? (
+            <div>
+              <span className="loading loading-spinner text-success"></span>
+            </div>
+          ) : noResults ? (
+            <div className="p-3 text-center text-gray-500">
+              Группа не найдена
+            </div>
+          ) : (
+            <ul className="divide-y divide-gray-200">
+              {groups.map((group) => (
+                <li
+                  key={group.id}
+                  className="p-3 hover:bg-base-300 hover:border-accent cursor-pointer"
+                  onClick={() => handleGroupSelect(group.id, group.name)}
+                >
+                  {group.name}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
     </div>
