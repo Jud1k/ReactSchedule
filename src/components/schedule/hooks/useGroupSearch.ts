@@ -14,6 +14,7 @@ export default function useGroupSearch(debouncedSearchTerm: string) {
   useEffect(() => {
     if (!debouncedSearchTerm) {
       setGroups([]);
+      setIsLoading(false)
       return;
     }
     setIsLoading(true);

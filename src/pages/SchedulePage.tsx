@@ -5,6 +5,7 @@ import TimeSlotList from "@/components/schedule/components/TimeSlotList";
 import CenterText from "@/components/generic/CenterText";
 import GroupSelector from "../components/schedule/components/GroupSelector";
 import { GroupCombobox } from "@/components/schedule/components/GroupSelector/GroupCombobox";
+import ScheduleSidebar from "@/components/schedule/components/ScheduleSidebar";
 
 export default function SchedulePage() {
   const [searchParams] = useSearchParams();
@@ -21,9 +22,8 @@ export default function SchedulePage() {
           )}
         </div>
         <div className="md:w-2/5 lg:w-1/3 max-w-md mx-auto md:mx-0 sticky top-4">
-          <GroupSelector
+          <ScheduleSidebar
             onDaySelect={setSelectedDayWeek}
-            onGroupSelect={(id, name) => console.log(id, name)}
           />
         </div>
       </div>

@@ -1,70 +1,90 @@
-import { useEffect, useState } from "react";
-import Calendar from "./Calendar";
-import { useSearchParams } from "react-router-dom";
-import useDebounce from "../../hooks/useDebounce";
+import React, { useState, useRef, useEffect } from "react";
 import useGroupSearch from "../../hooks/useGroupSearch";
-import { GroupSearchInput } from "./GroupSearchInput";
-import { GroupSearchResults } from "./GroupSearchResults";
+import { Group } from "@/types";
 
-interface Group {
-  id: number;
-  name: string;
+
+interface SearchProps {
+  onSelect: (group:Group) => void;
 }
 
-interface GroupSelectorProps {
-  groups:Group[]
-  onSearch:(term:string)=>void
-  onSelect:(group:Group)=>void
-  onGroupSelect: (groupId: number, groupName: string) => void;
-}
+export default function GroupSelector({ onSelect }: SearchProps) {
+  const [inputValue, setInputValue] = useState("");
+  const [isListOpen, setIsListOpen] = useState(false);
+  const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-export default function GroupSelector({
-  onGroupSelect,
-}: GroupSelectorProps) {
-  const [groupName, setGroupName] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [resetCalendar, setResetCalendar] = useState(false);
-  const [debouncedSearchTerm] = useDebounce(searchTerm, 500);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [isOpen,setIsOpen] = useState(false)
+  const { groups, isLoading } = useGroupSearch(inputValue);
 
-  const { groups, isLoading, error } = useGroupSearch(debouncedSearchTerm);
+  // Закрытие списка при клике вне области
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsListOpen(false);
+      }
+    };
 
-  const handleGroupSelect = (group: Group) => {
-    setSearchParams({group:group.id.toString()});
-    onGroupSelect(group.id, group.name);
-    setGroupName(group.name);
-    setResetCalendar((prev) => !prev);
-    setIsOpen(true)
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value && value !== selectedGroup?.name) {
+      setSelectedGroup(null);
+    }
+    setInputValue(value);
+    setIsListOpen(true);
   };
 
-  if (error) {
-    return (
-      <div className="btn m-1 bg-base-100 border border-base-300 shadow-lg rounded-box">
-        Ошибка: {error}
-      </div>
-    );
-  }
+  const handleGroupSelect = (group:Group) => {
+    onSelect(group);
+    setSelectedGroup({ id: group.id, name: group.name });
+    setIsListOpen(false);
+    setInputValue("");
+  };
+
+  const shouldShowList =
+    isListOpen && (isLoading || (inputValue && !isLoading));
+  const noResults = groups.length === 0 && !isLoading && inputValue;
 
   return (
-    <div>
-      {groupName && (
-        <span className="badge badge-xl badge-success mb-5">{groupName}</span>
-      )}
+    <div className="relative mb-4" ref={dropdownRef}>
       <input
-            type="search"
-            placeholder="Введите название группы"
-            className="input input-bordered w-full"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            
-          />
-      <GroupSearchResults
-        groups={groups}
-        onSelect={handleGroupSelect}
-        isLoading={isLoading}
-        hasSearchTerm={!!searchTerm}
+        type="search"
+        placeholder="Введите название группы"
+        className="input input-bordered w-full"
+        value={inputValue}
+        onChange={handleInputChange}
+        onClick={() => setIsListOpen(true)}
       />
+      {shouldShowList && (
+        <div className="absolute z-10 mt-1 w-full shadow-lg rounded-lg border bg-base-100 border-gray-200 max-h-48 overflow-y-auto">
+          {isLoading ? (
+            <div>
+              <span className="loading loading-spinner text-success"></span>
+            </div>
+          ) : noResults ? (
+            <div className="p-3 text-center text-gray-500">
+              Группа не найдена
+            </div>
+          ) : (
+            <ul className="divide-y divide-gray-200">
+              {groups.map((group) => (
+                <li
+                  key={group.id}
+                  className="p-3 hover:bg-base-300 hover:border-accent cursor-pointer"
+                  onClick={() => handleGroupSelect(group)}
+                >
+                  {group.name}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
     </div>
   );
 }
