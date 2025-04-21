@@ -1,7 +1,7 @@
 
 export interface Lesson {
-  time_id: number;
-  day_week: number;
+  time_id?: number;
+  day_week?: number;
   type_lesson: string;
   subject: string;
   teacher: string;
