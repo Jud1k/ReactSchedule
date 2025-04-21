@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import useGroupSearch from "../../hooks/useGroupSearch";
+import useGroupSearch from "../hooks/useGroupSearch";
 import { Group } from "@/types";
-import useDebounce from "../../hooks/useDebounce";
+import useDebounce from "../hooks/useDebounce";
 import Spinner from "@/components/generic/Spinner";
 
 interface SearchProps {
@@ -10,7 +10,7 @@ interface SearchProps {
 
 export default function GroupSelector({ onSelect }: SearchProps) {
   const [inputValue, setInputValue] = useState("");
-  const [debouncedSearchTerm] = useDebounce(inputValue, 1000);
+  const [debouncedSearchTerm] = useDebounce(inputValue, 300);
   const [isListOpen, setIsListOpen] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);

@@ -1,8 +1,10 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import "./Layout.css";
+
+
 export default function Layout() {
   return (
-    <div className="flex flex-col min-h-screen">
+     <div className="flex flex-col min-h-screen">
       <header className="navbar bg-base-100 shadow-sm">
         <div className="flex-1">
           <a href="/"className="btn btn-ghost text-xl">ЛесТех</a>
@@ -46,7 +48,9 @@ export default function Layout() {
           </div>
         </div>
       </header>
-      <main className="flex-grow"><Outlet /></main>
+      <main className="flex-grow">
+        <Outlet />
+      </main>
       <footer className="footer footer-horizontal footer-center bg-base-200 text-base-content rounded p-10">
         <nav className="grid grid-flow-col gap-4">
           <a className="link link-hover">About us</a>
@@ -100,4 +104,4 @@ export default function Layout() {
       </footer>
     </div>
   );
-};
+}

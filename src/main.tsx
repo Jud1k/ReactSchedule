@@ -14,14 +14,14 @@ export const router = createBrowserRouter([
     element: <Layout/>,
     children:[
       {path:"/",element:<HomePage/>},
-      {path:"/schedule",element:<SchedulePage/>}
+      {path:"/schedule",element:<SchedulePage isAdmin={false}/>}
     ]
   },
   {
     element:<AdminLayout />,
     children:[
       {path:"/admin",element:<AdminPage/>},
-      {path:"admin/schedule",element:<SchedulePage/>}
+      {path:"/admin/schedule",element:<SchedulePage isAdmin={true}/>}
     ]
   },
 

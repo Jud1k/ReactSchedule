@@ -1,24 +1,23 @@
+import { Lesson } from "@/types/schedule";
+
 interface LessonCardProps {
-  subject?: string;
-  room?: string;
-  teacher?: string;
-  type_lesson?: string;
+  lesson:Lesson
 }
 
-export default function LessonCard({
-  subject = "Название пары",
-  room = "Аудитория",
-  teacher = "Преподаватель",
-  type_lesson = "Тип занятия",
-}: LessonCardProps) {
+export default function LessonCard({lesson={
+  subject : "Название пары",
+  room : "Аудитория",
+  teacher : "Преподаватель",
+  type_lesson : "Тип занятия",
+}}: LessonCardProps) {
   return (
     <div className="card w-96 bg-base-100 shadow-sm card-lg">
       <div className="card-body">
-        <h2 className="card-title">{subject}</h2>
-        <h1>{room}</h1>
-        <p>{teacher}</p>
+        <h2 className="card-title">{lesson.subject}</h2>
+        <h1>{lesson.room}</h1>
+        <p>{lesson.teacher}</p>
         <div className="card-actions justify-end">
-          <div className="badge badge-success">{type_lesson}</div>
+          <div className="badge badge-success">{lesson.type_lesson}</div>
         </div>
       </div>
     </div>

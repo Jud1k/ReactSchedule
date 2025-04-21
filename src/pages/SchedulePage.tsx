@@ -4,7 +4,7 @@ import TimeSlotList from "@/components/schedule/components/TimeSlotList";
 import CenterText from "@/components/generic/CenterText";
 import ScheduleSidebar from "@/components/schedule/components/ScheduleSidebar";
 
-export default function SchedulePage() {
+export default function SchedulePage({isAdmin=false}) {
   const [searchParams] = useSearchParams();
   const groupId = searchParams.get("group");
   const [selectedDayWeek, setSelectedDayWeek] = useState<number | null>(null);
@@ -13,7 +13,7 @@ export default function SchedulePage() {
       <div className="flex flex-col md:flex-row gap-8 justify-center">
         <div className="md:w-3/5 lg:w-2/3 md:pr-8">
           {groupId ? (
-            <TimeSlotList groupId={groupId} dayWeek={selectedDayWeek} />
+            <TimeSlotList groupId={groupId} dayWeek={selectedDayWeek} isAdmin={isAdmin}/>
           ) : (
             <CenterText message="Выберите группу для отображения расписания" />
           )}

@@ -13,9 +13,8 @@ export default function ScheduleSidebar({ onDaySelect }: ScheduleMenuProps) {
   const [groupName, setGroupName] = useState("");
   const [resetCalendar, setResetCalendar] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  
 
-  const handleGroupSelect = (group:Group) => {
+  const handleGroupSelect = (group: Group) => {
     setSearchParams({ group: group.id.toString() });
     setGroupName(group.name);
     setResetCalendar((prev) => !prev);
