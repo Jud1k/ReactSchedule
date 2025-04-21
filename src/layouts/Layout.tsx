@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
+import { Outlet } from "react-router-dom";
 import "./Layout.css";
-export const Layout = ({ children }: { children: ReactNode }) => {
+export default function Layout() {
   return (
     <div className="flex flex-col min-h-screen">
       <header className="navbar bg-base-100 shadow-sm">
@@ -46,7 +46,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
           </div>
         </div>
       </header>
-      <main className="flex-grow">{children}</main>
+      <main className="flex-grow"><Outlet /></main>
       <footer className="footer footer-horizontal footer-center bg-base-200 text-base-content rounded p-10">
         <nav className="grid grid-flow-col gap-4">
           <a className="link link-hover">About us</a>

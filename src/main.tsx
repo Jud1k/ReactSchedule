@@ -5,23 +5,26 @@ import "./index.css";
 import App from "./App";
 import SchedulePage from "./pages/SchedulePage";
 import HomePage from "./pages/HomePage";
+import AdminPage from "./pages/AdminPage";
+import  Layout  from "./layouts/Layout";
+import AdminLayout from "./layouts/AdminLayout";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: <HomePage />,
+    element: <Layout/>,
+    children:[
+      {path:"/",element:<HomePage/>},
+      {path:"/schedule",element:<SchedulePage/>}
+    ]
   },
   {
-    path:"/schedule",
-    element:<SchedulePage/>,
-    children:[{
-      index:true,element:<SchedulePage/>
-    }]
+    element:<AdminLayout />,
+    children:[
+      {path:"/admin",element:<AdminPage/>},
+      {path:"admin/schedule",element:<SchedulePage/>}
+    ]
   },
-  {
-    path:"/schedule/:groupId",
-    element:<SchedulePage/>
-  }
+
 ]);
 
 createRoot(document.getElementById("root")!).render(

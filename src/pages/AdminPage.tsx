@@ -1,9 +1,6 @@
-import { Layout } from "../components/Layout/Layout";
 
 export default function AdminPage() {
   return (
-    <Layout>
-      <div></div>
-    </Layout>
+    <div></div>
   );
 }
