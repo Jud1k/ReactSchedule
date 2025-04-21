@@ -3,6 +3,7 @@ import Calendar from "./Calendar";
 import { useSearchParams } from "react-router-dom";
 import GroupSelector from "./GroupSelector";
 import { Group } from "@/types";
+import useDebounce from "../hooks/useDebounce";
 
 interface ScheduleMenuProps {
   onDaySelect: (dayWeek: number) => void;
@@ -12,7 +13,7 @@ export default function ScheduleSidebar({ onDaySelect }: ScheduleMenuProps) {
   const [groupName, setGroupName] = useState("");
   const [resetCalendar, setResetCalendar] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-const [debouncedSearchTerm]
+  
 
   const handleGroupSelect = (group:Group) => {
     setSearchParams({ group: group.id.toString() });

@@ -1,19 +1,21 @@
 import React, { useState, useRef, useEffect } from "react";
 import useGroupSearch from "../../hooks/useGroupSearch";
 import { Group } from "@/types";
-
+import useDebounce from "../../hooks/useDebounce";
+import Spinner from "@/components/generic/Spinner";
 
 interface SearchProps {
-  onSelect: (group:Group) => void;
+  onSelect: (group: Group) => void;
 }
 
 export default function GroupSelector({ onSelect }: SearchProps) {
   const [inputValue, setInputValue] = useState("");
+  const [debouncedSearchTerm] = useDebounce(inputValue, 1000);
   const [isListOpen, setIsListOpen] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const { groups, isLoading } = useGroupSearch(inputValue);
+  const { groups, isLoading } = useGroupSearch(debouncedSearchTerm);
 
   // Закрытие списка при клике вне области
   useEffect(() => {
@@ -32,14 +34,14 @@ export default function GroupSelector({ onSelect }: SearchProps) {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (value && value !== selectedGroup?.name) {
-      setSelectedGroup(null);
-    }
+    // if (value && value !== selectedGroup?.name) {
+    //   setSelectedGroup(null);
+    // }
     setInputValue(value);
     setIsListOpen(true);
   };
 
-  const handleGroupSelect = (group:Group) => {
+  const handleGroupSelect = (group: Group) => {
     onSelect(group);
     setSelectedGroup({ id: group.id, name: group.name });
     setIsListOpen(false);
@@ -63,9 +65,7 @@ export default function GroupSelector({ onSelect }: SearchProps) {
       {shouldShowList && (
         <div className="absolute z-10 mt-1 w-full shadow-lg rounded-lg border bg-base-100 border-gray-200 max-h-48 overflow-y-auto">
           {isLoading ? (
-            <div>
-              <span className="loading loading-spinner text-success"></span>
-            </div>
+            <Spinner />
           ) : noResults ? (
             <div className="p-3 text-center text-gray-500">
               Группа не найдена

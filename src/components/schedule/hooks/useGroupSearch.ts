@@ -8,7 +8,7 @@ interface Groups {
 
 export default function useGroupSearch(debouncedSearchTerm: string) {
   const [groups, setGroups] = useState<Groups[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

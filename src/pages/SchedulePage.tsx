@@ -1,10 +1,7 @@
-import ScheduleMenu from "../components/schedule/components/GroupSelector";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import TimeSlotList from "@/components/schedule/components/TimeSlotList";
 import CenterText from "@/components/generic/CenterText";
-import GroupSelector from "../components/schedule/components/GroupSelector";
-import { GroupCombobox } from "@/components/schedule/components/GroupSelector/GroupCombobox";
 import ScheduleSidebar from "@/components/schedule/components/ScheduleSidebar";
 
 export default function SchedulePage() {
