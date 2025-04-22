@@ -7,18 +7,11 @@ interface InputFieldProps{
 }
 
 
-export default function InputField({label,value,onChange}:InputFieldProps){
-    return (
-      <div className="form-control">
-        <label className="label">
-          <span className="label-text">{label}</span>
-        </label>
-        <input
-          type="text"
-          className="input input-bordered w-full mb-2"
-          value={value}
-          onChange={onChange}
-        />
-      </div>
-    );
+export default function InputField({ label, value, onChange }: InputFieldProps) {
+  return (
+    <label className="floating-label">
+      <input type="text" placeholder={label} value={value} className="input input-lg w-full mb-2" onChange={onChange}/>
+      <span>{label}</span>
+    </label>
+  );
 }

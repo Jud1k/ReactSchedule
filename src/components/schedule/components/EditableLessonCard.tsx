@@ -1,30 +1,3 @@
-// import { Lesson } from "@/types/schedule";
-
-// interface LessonCardProps {
-//   lesson:Lesson
-// }
-
-// export default function EditableLessonCard({lesson={
-//   subject : "Название пары",
-//   room : "Аудитория",
-//   teacher : "Преподаватель",
-//   type_lesson : "Тип занятия",
-// }}: LessonCardProps) {
-//   return (
-//     <div className="card w-96 bg-base-100 shadow-sm card-lg">
-//       <div className="card-body">
-//         <h2 className="card-title">{lesson.subject}</h2>
-//         <h1>{lesson.room}</h1>
-//         <p>{lesson.teacher}</p>
-//         <div className="card-actions justify-end">
-//           <div className="badge badge-success">{lesson.type_lesson}</div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// EditableLessonCard.tsx
 import InputField from "@/components/generic/InputField";
 import { Lesson } from "@/types/schedule";
 import { useState } from "react";
@@ -55,7 +28,7 @@ export default function EditableLessonCard({
           {/* Поле предмета */}
           {isEditing ? (
             <InputField
-              label="Название предмета"
+              label="Предмет"
               value={editedLesson.subject}
               onChange={(e) => handleChange("subject", e.target.value)}
             />
@@ -66,7 +39,7 @@ export default function EditableLessonCard({
           {/* Поле аудитории */}
           {isEditing ? (
             <InputField
-              label="Название аудитории"
+              label="Аудитория"
               value={editedLesson.room}
               onChange={(e) => handleChange("room", e.target.value)}
             />
@@ -77,7 +50,7 @@ export default function EditableLessonCard({
           {/* Поле преподавателя */}
           {isEditing ? (
             <InputField
-              label="Название преподавателя"
+              label="Преподаватель"
               value={editedLesson.teacher}
               onChange={(e) => handleChange("teacher", e.target.value)}
             />
