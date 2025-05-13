@@ -1,13 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "@/api/axiosConfig";
 
-interface Group {
-  id: number;
-  name: string;
-}
 
-export default function useGroupSearch(endpoint: string, searchTerm?: string) {
-  return useQuery<Group[], Error>({
+export default function useSearch(endpoint: string, searchTerm?: string) {
+  return useQuery({
     queryKey: ["groups", searchTerm],
     queryFn: async ({ signal }) => {
       if (!searchTerm) return [];

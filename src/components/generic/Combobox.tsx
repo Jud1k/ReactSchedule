@@ -10,6 +10,8 @@ interface ComboboxProps<T> {
   placeholder?: string;
   isLoading?: boolean;
   debounceTime?: number;
+  isSearch?: boolean;
+  onChange?: (value: string) => void;
 }
 
 export default function Combobox<T>({
@@ -20,6 +22,8 @@ export default function Combobox<T>({
   placeholder,
   isLoading: externalLoading,
   debounceTime = 500,
+  isSearch = true,
+  onChange,
 }: ComboboxProps<T>) {
   const [items, setItems] = useState<T[]>([]);
   const [inputValue, setInputValue] = useState("");
@@ -65,14 +69,23 @@ export default function Combobox<T>({
   }, [debouncedSearchTerm, fetchItems]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+    const newValue = e.target.value;
+    setInputValue(newValue);
+    onChange?.(newValue);
     setIsListOpen(true);
+    setInternalLoading(true);
   };
-
   const handleItemSelect = (item: T) => {
     onSelect(item);
     setIsListOpen(false);
-    setInputValue("");
+    if (isSearch) {
+      setInputValue("");
+      onChange?.("");
+    } else {
+      const label = itemLabel(item);
+      setInputValue(label);
+      onChange?.(label);
+    }
   };
 
   const shouldShowList =
@@ -81,17 +94,20 @@ export default function Combobox<T>({
 
   return (
     <div className="relative mb-4" ref={dropdownRef}>
-      <input
-        type="search"
-        placeholder={placeholder}
-        className="input input-bordered w-full"
-        value={inputValue}
-        onChange={handleInputChange}
-        onClick={() => setIsListOpen(true)}
-        aria-haspopup="listbox"
-        aria-expanded={isListOpen}
-        role="combobox"
-      />
+      <label className="floating-label">
+        <input
+          type="search"
+          placeholder={placeholder}
+          className="input input-bordered w-full"
+          value={inputValue}
+          onChange={handleInputChange}
+          onClick={() => setIsListOpen(true)}
+          aria-haspopup="listbox"
+          aria-expanded={isListOpen}
+          role="combobox"
+        />
+        <span>{placeholder}</span>
+      </label>
       {shouldShowList && (
         <div
           className="absolute z-10 mt-1 w-full shadow-lg rounded-lg border bg-base-100 border-gray-200 max-h-48 overflow-y-auto"
