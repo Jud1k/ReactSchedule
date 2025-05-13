@@ -1,7 +1,6 @@
 import { useState } from "react";
-import useGroupSearch from "../hooks/useGroupSearch";
+import useSearch from "../hooks/useSearch";
 import { Group } from "@/types";
-import useDebounce from "../hooks/useDebounce";
 import Combobox from "@/components/generic/Combobox";
 
 interface SearchProps {
@@ -10,12 +9,12 @@ interface SearchProps {
 
 export default function GroupSelector({ onSelect }: SearchProps) {
   const [searchTerm, setSearchTerm] = useState("");
-  const { data: groups = [], isLoading } = useGroupSearch(
+  const { data: groups = [],isLoading } = useSearch(
     "/group/search",
     searchTerm
   );
 
-  const fetchItems = async (searchTerm: string) => {
+  const fetchGroups = async (searchTerm: string) => {
     setSearchTerm(searchTerm); // Пробрасываем поисковый термин в хук
     return groups; // Теперь groups всегда будет массивом (даже если undefined - используем fallback)
   };
@@ -24,7 +23,7 @@ export default function GroupSelector({ onSelect }: SearchProps) {
     <Combobox<Group>
       onSelect={onSelect}
       placeholder="Введите название группы"
-      fetchItems={fetchItems}
+      fetchItems={fetchGroups}
       itemKey={(group) => group.id}
       itemLabel={(group)=>group.name}
       isLoading={isLoading}

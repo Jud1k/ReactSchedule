@@ -3,7 +3,6 @@ import Calendar from "./Calendar";
 import { useSearchParams } from "react-router-dom";
 import GroupSelector from "./GroupSelector";
 import { Group } from "@/types";
-import useDebounce from "../hooks/useDebounce";
 
 interface ScheduleMenuProps {
   onDaySelect: (dayWeek: number) => void;

@@ -1,9 +1,13 @@
 import InputField from "@/components/generic/InputField";
-import { Lesson } from "@/types/schedule";
+import { Lesson, Room, Subject, Teacher } from "@/types/schedule";
 import { useState } from "react";
-
+import useSearch from "../hooks/useSearch";
+import Combobox from "@/components/generic/Combobox";
 interface LessonCardProps {
   lesson: Lesson;
+  // subjects: Subject[];
+  // teachers: Teacher[];
+  // rooms: Room[];
 }
 
 export default function EditableLessonCard({
@@ -13,12 +17,32 @@ export default function EditableLessonCard({
     teacher: "Преподаватель",
     type_lesson: "Тип занятия",
   },
-}: LessonCardProps) {
+}: // subjects123 = [],
+// teachers = [],
+// rooms = [],
+LessonCardProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedLesson, setEditedLesson] = useState(lesson);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { data: subjects = [], isLoading } = useSearch(
+    "/subjects/search",
+    searchTerm
+  );
+  function fetchSubjects(searchTerm: string) {
+    setSearchTerm(searchTerm);
+    return subjects;
+  }
+
+  function fetchTeachers() {}
+
+  function fetchRooms() {}
 
   const handleChange = (field: keyof Lesson, value: string) => {
     setEditedLesson((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubjectSelect = (subject: Subject) => {
+    handleChange("subject", subject.name); // Предполагаем, что subject имеет поле name
   };
 
   return (
@@ -27,10 +51,14 @@ export default function EditableLessonCard({
         <div className="card-body">
           {/* Поле предмета */}
           {isEditing ? (
-            <InputField
-              label="Предмет"
-              value={editedLesson.subject}
-              onChange={(e) => handleChange("subject", e.target.value)}
+            <Combobox<Subject>
+              onSelect={handleSubjectSelect}
+              onChange={(value) => handleChange("subject", value)}
+              isSearch={false}
+              fetchItems={fetchSubjects}
+              itemKey={(subject) => subject.id}
+              itemLabel={(subject) => subject.name}
+              placeholder="Выберите предмет"
             />
           ) : (
             <h2 className="card-title">{lesson.subject}</h2>
