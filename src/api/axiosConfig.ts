@@ -1,30 +1,48 @@
+import { AuthResponse } from "@/types/response/AuthResponse";
 import axios from "axios";
 
-// 1. Создаём экземпляр axios с настройками
+export const API_URL = "http://localhost:8000/api/v1";
+
 const api = axios.create({
-  baseURL: "http://localhost:8000/api/v1", // Базовый URL
-  timeout: 5000, // Максимальное время ожидания запроса
+  baseURL: API_URL,
   headers: {
     "Content-Type": "application/json",
-    // Можно добавить Auth-токен, если нужно
-    // "Authorization": `Bearer ${localStorage.getItem('token')}`
   },
+  withCredentials: true,
 });
 
-// 2. Добавляем интерцепторы (опционально)
-// api.interceptors.request.use(
-//   (config) => {
-//     // Можно модифицировать запрос перед отправкой (например, добавить токен)
-//     const token = localStorage.getItem("token");
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (config) => {
+    return config;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.status == 401 && error.config && !error.config._isRetry) {
+      originalRequest._isRetry = true;
+      try {
+        const response = await axios.get<AuthResponse>(`${API_URL}/auth/refresh`,{withCredentials:true})
+        localStorage.setItem("token",response.data.access_token)
+        return api.request(originalRequest)
+      } catch (e) {
+        console.log("Not Authorized");
+      }
+    }
+    throw error
+  }
+);
 
 // api.interceptors.response.use(
 //   (response) => {
@@ -40,5 +58,4 @@ const api = axios.create({
 //   }
 // );
 
-// 3. Экспортируем настроенный экземпляр
 export default api;

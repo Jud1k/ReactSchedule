@@ -1,7 +1,7 @@
 import InputField from "@/components/generic/InputField";
 import { Lesson, Room, Subject, Teacher } from "@/types/schedule";
 import { useState } from "react";
-import useSearch from "../hooks/useSearch";
+import useSearch from "./hooks/useSearch";
 import Combobox from "@/components/generic/Combobox";
 interface LessonCardProps {
   lesson: Lesson;
