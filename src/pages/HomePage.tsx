@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
   return (
@@ -6,12 +7,12 @@ export default function HomePage() {
           Всем привет. Эта сайт с расписанием УГЛТУ. Пока еще делаю, потом
           сделаю.
         </h1>
-        <a href="/schedule" className="btn btn-xl">
+        <Link to="/schedule" className="btn btn-xl">
           Посмотреть расписание
-        </a>
-        <a href="/admin" className="btn btn-xl">
+        </Link>
+        <Link to="/admin" className="btn btn-xl">
           Админка
-        </a>
+        </Link>
       </div>
   );
 }

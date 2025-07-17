@@ -1,6 +1,6 @@
-import CustomError from "../../generic/CustomError";
-import Spinner from "../../generic/Spinner";
-import { useSchedule } from "../hooks/useSchedule";
+import CustomError from "../generic/CustomError";
+import Spinner from "../generic/Spinner";
+import { useSchedule } from "./hooks/useSchedule";
 import LessonCard from "./LessonCard";
 import LessonGrid from "./LessonGrid";
 import { TimeSlot, CardRender } from "@/types";

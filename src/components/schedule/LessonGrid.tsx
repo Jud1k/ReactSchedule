@@ -1,4 +1,4 @@
-import Badge from "../../generic/Badge";
+import Badge from "../generic/Badge";
 import { Lesson, TimeSlot, CardRender } from "@/types";
 
 interface LessonGridProps {

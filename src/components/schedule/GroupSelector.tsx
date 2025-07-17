@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useSearch from "../hooks/useSearch";
+import useSearch from "./hooks/useSearch";
 import { Group } from "@/types";
 import Combobox from "@/components/generic/Combobox";
 
@@ -9,7 +9,7 @@ interface SearchProps {
 
 export default function GroupSelector({ onSelect }: SearchProps) {
   const [searchTerm, setSearchTerm] = useState("");
-  const { data: groups = [],isLoading } = useSearch(
+  const { data: groups = [], isLoading } = useSearch(
     "/group/search",
     searchTerm
   );
@@ -25,7 +25,7 @@ export default function GroupSelector({ onSelect }: SearchProps) {
       placeholder="Введите название группы"
       fetchItems={fetchGroups}
       itemKey={(group) => group.id}
-      itemLabel={(group)=>group.name}
+      itemLabel={(group) => group.name}
       isLoading={isLoading}
     />
   );
