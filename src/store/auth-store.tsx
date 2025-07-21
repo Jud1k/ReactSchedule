@@ -1,5 +1,5 @@
+import { IUser } from "@/schemas";
 import AuthService from "@/services/AuthService";
-import { IUser } from "@/types/IUser";
 import { makeAutoObservable, runInAction } from "mobx";
 
 class AuthStore {
@@ -39,13 +39,13 @@ class AuthStore {
     try {
       const response = await AuthService.login(email, password);
       runInAction(() => {
-        this.user = response.data.user;
+        this.user = response.user;
         this.isAuth = true;
       });
-      localStorage.setItem("token", response.data.access_token);
-    } catch (e) {
-      this.error = e.response?.data?.detail || "Login failed";
-      throw e;
+      localStorage.setItem("token", response.access_token);
+      console.log(response);
+    } catch (error) {
+      this.error = e.response?.detail || "Login failed";
     } finally {
       this.isLoading = false;
     }
@@ -73,9 +73,9 @@ class AuthStore {
     this.isLoading = true;
     this.error = null;
     try {
-      const response =await AuthService.check()
+      const response = await AuthService.check();
       runInAction(() => {
-        this.user = response.data.user;
+        this.user = response;
         this.isAuth = true;
       });
     } catch (e) {

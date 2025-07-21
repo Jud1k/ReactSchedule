@@ -1,28 +1,33 @@
 import { useStores } from "@/root-store-context";
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { LoginFormData, loginFormSchema } from "@/schemas/forms/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { InputFiled1 } from "../generic/InputFiled1";
 
 export default function LoginForm() {
   const { auth } = useStores();
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
   const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError,
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginFormSchema),
+    mode: "onChange",
+  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
-    auth.setError(null);
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    await auth.login(formData.email, formData.password);
-    navigate("/");
+  const onSubmit = async (data: LoginFormData) => {
+    try{
+      await auth.login(data.email, data.password);
+      navigate("/");
+    }catch(error){
+      setError("root",{
+        type:"manual",
+        message:auth.error||"Ошибка авторизации"
+      })
+    }
   };
 
   return (
@@ -30,47 +35,42 @@ export default function LoginForm() {
       <div className="card w-full max-w-md shadow-2xl bg-base-100">
         <div className="card-body">
           <h1 className="text-2xl font-bold text-center mb-6">Вход</h1>
-
           <form
             className="flex flex-col items-center space-y-4"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
           >
-            <div className="form-control w-full max-w-xs">
-              <label className="label" htmlFor="email">
-                <span className="label-text text-lg font-bold">Почта</span>
-              </label>
-              <input
-                id="email"
-                type="email"
-                placeholder="Введите почту"
-                className="input input-bordered w-full"
-                required
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="form-control w-full max-w-xs">
-              <label className="label text-lg" htmlFor="password">
-                <span className="label-text text-lg font-bold">Пароль</span>
-              </label>
-              <input
-                id="password"
-                type="password"
-                placeholder="Введите пароль"
-                className="input input-bordered w-full"
-                required
-                value={formData.password}
-                onChange={handleChange}
-              />
-            </div>
-
+            {errors.root && (
+              <div
+                role="alert"
+                className="alert alert-error alert-outline w-full max-w-xs"
+              >
+                <span>{errors.root.message}</span>
+              </div>
+            )}
+            <InputFiled1
+              label="Почта"
+              type="email"
+              placeholder="Введите почту"
+              error={errors.email?.message}
+              registration={register("email")}
+            />
+            <InputFiled1
+              label="Пароль"
+              type="password"
+              placeholder="Введите пароль"
+              error={errors.password?.message}
+              registration={register("password")}
+            />
             <div className="form-control mt-6 w-full max-w-xs">
-              <button type="submit" className="btn btn-primary w-full">
+              <button
+                type="submit"
+                className="btn btn-primary w-full"
+                disabled={isSubmitting}
+              >
                 Войти
               </button>
             </div>
           </form>
-
           <div className="text-center mt-4">
             <span className="text-sm">У вас нет аккаунта? </span>
             <Link to="/register" className="link link-primary text-sm">
