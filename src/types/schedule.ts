@@ -1,22 +1,10 @@
-
-export interface Lesson {
-  time_id?: number;
-  day_week?: number;
-  type_lesson: string;
-  subject: string;
-  teacher: string;
-  room: string;
-}
+import { Lesson } from "@/schemas";
 
 export interface TimeSlot {
   id: number;
   duration: string;
 }
 
-export interface Group {
-  id: number;
-  name: string;
-}
 
 export interface Teacher{
   id:number

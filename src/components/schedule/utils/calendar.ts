@@ -23,7 +23,7 @@ export function areEqual(a?: Date | null, b?: Date | null): boolean {
   if (!a || !b) return false;
 
   return (
-    a.getFullYear() == b.getFullYear() &&
+    a.getFullYear() === b.getFullYear() &&
     a.getMonth() === b.getMonth() &&
     a.getDate() === b.getDate()
   );
@@ -44,10 +44,8 @@ export function getDaysInMonth(date: Date) {
     return daysInMonth;
   }
 }
-
 export function getDayOfWeek(date:Date){
     const dayOfWeek=date.getDay()
-
     return WEEK_DAYS_FROM_MONDAY[dayOfWeek]
 }
 

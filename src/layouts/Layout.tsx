@@ -1,16 +1,10 @@
 import { Link, Outlet } from "react-router-dom";
-import "./Layout.css";
-import { useStores } from "@/root-store-context";
-import { useEffect } from "react";
-import { observer } from "mobx-react-lite";
-import AuthService from "@/services/AuthService";
-import Spinner from "@/components/generic/Spinner";
 import UserAuthWidget from "@/components/auth/UserAuthWidget";
 
 const Layout = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="navbar bg-base-100 shadow-sm px-4">
+      <header className="navbar bg-green-600 shadow-sm px-4">
         <div className="flex-1">
           <Link to="/" className="btn btn-ghost text-xl">
             Лестех

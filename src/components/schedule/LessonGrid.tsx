@@ -1,5 +1,6 @@
 import Badge from "../generic/Badge";
-import { Lesson, TimeSlot, CardRender } from "@/types";
+import { Lesson } from "@/schemas";
+import {TimeSlot, CardRender } from "@/types";
 
 interface LessonGridProps {
   lessons: Lesson[];
@@ -22,7 +23,7 @@ export default function LessonGrid({
           );
           return (
             <div key={timeSlot.id} className="flex flex-col gap-2">
-              <Badge props={timeSlot.duration} />
+              <Badge>{timeSlot.duration}</Badge>
               {lessonForSlot && renderCard(lessonForSlot)}
             </div>
           );

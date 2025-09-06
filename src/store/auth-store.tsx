@@ -1,9 +1,9 @@
-import { IUser } from "@/schemas";
+import { User } from "@/schemas";
 import AuthService from "@/services/AuthService";
 import { makeAutoObservable, runInAction } from "mobx";
 
 class AuthStore {
-  user = {} as IUser;
+  user = {} as User;
   isAuth: boolean = false;
   isLoading: boolean = false;
   error: string | null = null;
@@ -25,7 +25,7 @@ class AuthStore {
     this.error = null;
     try {
       await AuthService.register(email, password);
-    } catch (e) {
+    } catch (e:any) {
       this.error = e.response?.data?.detail || "Registration failed";
       throw e;
     } finally {
@@ -37,15 +37,15 @@ class AuthStore {
     this.isLoading = true;
     this.error = null;
     try {
-      const response = await AuthService.login(email, password);
+      const result = await AuthService.login(email, password);
       runInAction(() => {
-        this.user = response.user;
+        this.user = result.user;
         this.isAuth = true;
       });
-      localStorage.setItem("token", response.access_token);
-      console.log(response);
-    } catch (error) {
+      localStorage.setItem("token", result.access_token);
+    } catch (e:any) {
       this.error = e.response?.detail || "Login failed";
+      throw e
     } finally {
       this.isLoading = false;
     }
@@ -59,9 +59,9 @@ class AuthStore {
       localStorage.removeItem("token");
       runInAction(() => {
         this.isAuth = false;
-        this.user = {} as IUser;
+        this.user = {} as User;
       });
-    } catch (e) {
+    } catch (e:any) {
       this.error = e.response?.data?.datail || "Logout failed";
       throw e;
     } finally {
@@ -73,12 +73,12 @@ class AuthStore {
     this.isLoading = true;
     this.error = null;
     try {
-      const response = await AuthService.check();
+      const result = await AuthService.check();
       runInAction(() => {
-        this.user = response;
+        this.user = result;
         this.isAuth = true;
       });
-    } catch (e) {
+    } catch (e:any) {
       this.error = e.response?.data?.detail || "Login failed";
       throw e;
     } finally {

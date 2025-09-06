@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { AuthResponse, authSchema, IUser, userSchema } from "@/schemas";
+import { AuthResponse, authSchema, User, userSchema } from "@/schemas";
 import api from "@/api/axiosConfig";
 
 export default class AuthService {
@@ -22,8 +22,8 @@ export default class AuthService {
     return api.post("/auth/logout/");
   }
 
-  static async check(): Promise<IUser> {
-    const response = await api.get<IUser>("/auth/check/");
+  static async check(): Promise<User> {
+    const response = await api.get<User>("/auth/check/");
     return userSchema.parse(response.data);
   }
 }

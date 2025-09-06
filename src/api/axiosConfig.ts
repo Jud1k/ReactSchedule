@@ -1,4 +1,4 @@
-import { AuthResponse } from "@/types/response/AuthResponse";
+import { AuthResponse } from "@/schemas";
 import axios from "axios";
 
 export const API_URL = "http://localhost:8000/api/v1";
@@ -40,7 +40,7 @@ api.interceptors.response.use(
         console.log("Not Authorized");
       }
     }
-    throw error
+    return Promise.reject(error);
   }
 );
 

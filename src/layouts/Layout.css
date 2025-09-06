@@ -1,6 +1,0 @@
-@import "tailwindcss";
-@plugin "daisyui";
-
-.navbar{
-    background-color: rgb(77, 185, 74);
-}

@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { InputFiled1 } from "../generic/InputFiled1";
 
 export default function LoginForm() {
-  const { auth } = useStores();
+  const { authStore } = useStores();
   const navigate = useNavigate();
   const {
     register,
@@ -20,12 +20,12 @@ export default function LoginForm() {
 
   const onSubmit = async (data: LoginFormData) => {
     try{
-      await auth.login(data.email, data.password);
+      await authStore.login(data.email, data.password);
       navigate("/");
     }catch(error){
       setError("root",{
         type:"manual",
-        message:auth.error||"Ошибка авторизации"
+        message:authStore.error||"Ошибка авторизации"
       })
     }
   };

@@ -1,70 +1,33 @@
-import React, { useEffect, useState } from "react";
-
 import * as calendar from "./utils/calendar";
+import { useStores } from "@/root-store-context";
+import { observer } from "mobx-react-lite";
 
-interface CalendarProps {
-  date?: Date;
-  monthNames?: string[];
-  weekDaysNames?: string[];
-  onChange?: (date: Date, dayWeek?: number) => void;
-  onDaySelect: (dayWeek: number) => void;
-  resetTrigger?: boolean;
-}
 
-export default function Calendar({
-  date = new Date(),
-  monthNames = [
-    "Январь",
-    "Февраль",
-    "Март",
-    "Апрель",
-    "Май",
-    "Июнь",
-    "Июль",
-    "Август",
-    "Сентябрь",
-    "Октябрь",
-    "Ноябрь",
-    "Декабрь",
-  ],
-  weekDaysNames = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"],
-  onChange = () => {},
-  onDaySelect = () => {},
-  resetTrigger = false,
-}: CalendarProps) {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [currentMonth, setCurrentMonth] = useState(date.getMonth());
-  const currentYear = date.getFullYear();
+export const Calendar = observer(() => {
+  const { calendarStore } = useStores();
 
-  const monthData = calendar.getMonthData(currentYear, currentMonth);
-
-  useEffect(() => {
-    const today = new Date();
-    setSelectedDate(today);
-    setCurrentMonth(today.getMonth());
-    onDaySelect(today.getDay());
-    onChange(today);
-  }, [resetTrigger]);
+  const monthData = calendar.getMonthData(
+    calendarStore.currentYear,
+    calendarStore.currentMonth
+  );
 
   const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCurrentMonth(Number(e.target.value));
+    calendarStore.setMonth(Number(e.target.value));
   };
+
   const handleDateClick = (date: Date) => {
-    setSelectedDate(date);
-    const dayWeek = date.getDay();
-    onDaySelect(dayWeek);
-    onChange(date);
+    calendarStore.setDate(date)
   };
 
   return (
     <div className="calendar">
       <header>
         <select
-          value={currentMonth}
+          value={calendarStore.currentMonth}
           onChange={handleMonthChange}
           className="select select-success w-full"
         >
-          {monthNames.map((name, index) => (
+          {calendarStore.monthNames.map((name, index) => (
             <option key={name} value={index}>
               {name}
             </option>
@@ -75,7 +38,7 @@ export default function Calendar({
         <table className="table w-full border-separate border-spacing-y-3">
           <thead>
             <tr>
-              {weekDaysNames.map((day) => (
+              {calendarStore.weekDayNames.map((day) => (
                 <th key={day} className="p-1 text-base-content">
                   {day}
                 </th>
@@ -90,7 +53,7 @@ export default function Calendar({
                     {date && (
                       <button
                         className={`btn btn-md h-10 w-10 ${
-                          calendar.areEqual(date, selectedDate)
+                          calendar.areEqual(date, calendarStore.selectedDate)
                             ? "border-accent"
                             : ""
                         }`}
@@ -108,4 +71,4 @@ export default function Calendar({
       </div>
     </div>
   );
-}
+});

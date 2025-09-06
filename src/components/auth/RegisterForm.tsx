@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { InputFiled1 } from "../generic/InputFiled1";
 
 export default observer(function RegisterForm() {
-  const { auth } = useStores();
+  const { authStore } = useStores();
   const navigate = useNavigate();
 
   const {
@@ -20,13 +20,13 @@ export default observer(function RegisterForm() {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      await auth.register(data.email, data.password);
-      await auth.login(data.email,data.password)
+      await authStore.register(data.email, data.password);
+      await authStore.login(data.email,data.password)
       navigate("/");
     } catch (error) {
       setError("root", {
         type: "manual",
-        message: auth.error || "Ошибка регистрации",
+        message: authStore.error || "Ошибка регистрации",
       });
     }
   };

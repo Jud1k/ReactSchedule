@@ -1,32 +1,49 @@
 import { useState } from "react";
-import useSearch from "./hooks/useSearch";
-import { Group } from "@/types";
+import { Group } from "@/schemas";
 import Combobox from "@/components/generic/Combobox";
+import { observer } from "mobx-react-lite";
+import { useStores } from "@/root-store-context";
+import ScheduleService from "@/services/ScheduleServie";
+import { useSearchParams } from "react-router-dom";
+import Badge from "../generic/Badge";
 
-interface SearchProps {
-  onSelect: (group: Group) => void;
-}
+const GroupSelector = observer(() => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-export default function GroupSelector({ onSelect }: SearchProps) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const { data: groups = [], isLoading } = useSearch(
-    "/group/search",
-    searchTerm
-  );
+  const { groupStore } = useStores();
 
-  const fetchGroups = async (searchTerm: string) => {
-    setSearchTerm(searchTerm); // Пробрасываем поисковый термин в хук
-    return groups; // Теперь groups всегда будет массивом (даже если undefined - используем fallback)
+  const handleGroupSelect = (group: Group) => {
+    groupStore.setSelectredGroup(group);
+    setSearchParams({ group: group.id.toString() });
+  };
+
+  const handleGroupSearch = async (searchTerm: string) => {
+    setIsLoading(true);
+    try {
+      return await ScheduleService.searchGroups(searchTerm);
+    } catch (e) {
+      return [];
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <Combobox<Group>
-      onSelect={onSelect}
-      placeholder="Введите название группы"
-      fetchItems={fetchGroups}
-      itemKey={(group) => group.id}
-      itemLabel={(group) => group.name}
-      isLoading={isLoading}
-    />
+    <>
+      {groupStore.selectedGroup && (
+        <Badge className="badge-xl mb-5">{groupStore.selectedGroup?.name}</Badge>
+      )}
+      <Combobox<Group>
+        onSelect={handleGroupSelect}
+        onSearch={handleGroupSearch}
+        placeholder="Введите название группы"
+        itemKey={(group) => group.id}
+        itemLabel={(group) => group.name}
+        isLoading={isLoading}
+      />
+    </>
   );
-}
+});
+
+export default GroupSelector;

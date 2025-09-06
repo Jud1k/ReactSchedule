@@ -4,18 +4,18 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const UserAuthWidget = observer(() => {
-  const { auth } = useStores();
+  const { authStore } = useStores();
   const [initLoad, setInitLoad] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => setInitLoad(false), 500);
-    if (localStorage.getItem("token")) {
-      auth.checkAuth();
+    if (localStorage.getItem("token") && !authStore.isAuth) {
+      authStore.checkAuth();
     }
     return () => clearTimeout(timer);
   }, []);
 
-  if (initLoad || auth.isLoading) {
+  if (initLoad || authStore.isLoading) {
     return (
       <div className="flex items-center justify-center w-10 h-10">
         <div className="w-8 h-8 rounded-full bg-gray-100 animate-pulse"></div>
@@ -23,7 +23,7 @@ const UserAuthWidget = observer(() => {
     );
   }
 
-  return auth.isAuth ? (
+  return authStore.isAuth ? (
     <div className="dropdown dropdown-end">
       <div
         tabIndex={0}
@@ -33,7 +33,7 @@ const UserAuthWidget = observer(() => {
         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary via-secondary to-accent text-white flex items-center justify-center font-bold text-lg relative">
           {/* Буква почты */}
           <span className="absolute inset-0 flex items-center justify-center">
-            {auth.user?.email?.[0]?.toUpperCase() ?? "U"}
+            {authStore.user?.email?.[0]?.toUpperCase() ?? "U"}
           </span>
 
           {/* Эффект свечения при наведении */}
@@ -52,8 +52,8 @@ const UserAuthWidget = observer(() => {
         </li>
         <li>
           <button
-            onClick={() => auth.logout()}
-            disabled={auth.isLoading}
+            onClick={() => authStore.logout()}
+            disabled={authStore.isLoading}
             className="w-full text-left hover:bg-error/10 hover:text-error disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Выйти
