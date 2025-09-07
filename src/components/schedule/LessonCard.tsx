@@ -5,7 +5,7 @@ interface LessonCardProps {
   lesson: Lesson;
 }
 
-export default function LessonCard({ lesson }: LessonCardProps) {
+const LessonCard = ({ lesson }: LessonCardProps) =>{
   return (
     <div className="card w-96 bg-base-100 shadow-sm card-lg">
       <div className="card-body">
@@ -19,3 +19,5 @@ export default function LessonCard({ lesson }: LessonCardProps) {
     </div>
   );
 }
+
+export default LessonCard

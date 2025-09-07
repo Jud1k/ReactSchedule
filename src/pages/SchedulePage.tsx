@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import CenterText from "@/components/generic/CenterText";
 import ScheduleSidebar from "@/components/schedule/ScheduleSidebar";
 import ScheduleContainer from "@/components/schedule/ScheduleContainer";

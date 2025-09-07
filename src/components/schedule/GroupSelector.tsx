@@ -4,7 +4,7 @@ import Combobox from "@/components/generic/Combobox";
 import { observer } from "mobx-react-lite";
 import { useStores } from "@/root-store-context";
 import ScheduleService from "@/services/ScheduleServie";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import Badge from "../generic/Badge";
 
 const GroupSelector = observer(() => {
