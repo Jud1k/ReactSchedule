@@ -1,5 +1,5 @@
 import { useStores } from "@/root-store-context";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { LoginFormData, loginFormSchema } from "@/schemas/forms/auth";
 import { zodResolver } from "@hookform/resolvers/zod";

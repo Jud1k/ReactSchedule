@@ -1,7 +1,7 @@
-import { Calendar } from "./Calendar";
+import  Calendar  from "./Calendar";
 import GroupSelector from "./GroupSelector";
 
-export default function ScheduleSidebar() {
+const ScheduleSidebar=()=> {
   return (
     <>
       <GroupSelector />
@@ -9,3 +9,5 @@ export default function ScheduleSidebar() {
     </>
   );
 }
+
+export default ScheduleSidebar

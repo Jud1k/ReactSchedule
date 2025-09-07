@@ -3,7 +3,7 @@ import { useStores } from "@/root-store-context";
 import { observer } from "mobx-react-lite";
 
 
-export const Calendar = observer(() => {
+const Calendar = observer(() => {
   const { calendarStore } = useStores();
 
   const monthData = calendar.getMonthData(
@@ -72,3 +72,5 @@ export const Calendar = observer(() => {
     </div>
   );
 });
+
+export default Calendar

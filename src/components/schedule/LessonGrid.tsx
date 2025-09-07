@@ -1,18 +1,14 @@
 import Badge from "../generic/Badge";
 import { Lesson } from "@/schemas";
-import {TimeSlot, CardRender } from "@/types";
+import { TimeSlot, CardRender } from "@/types";
 
 interface LessonGridProps {
   lessons: Lesson[];
   timeSlots: TimeSlot[];
-  renderCard:CardRender;
+  renderCard: CardRender;
 }
 
-export default function LessonGrid({
-  lessons,
-  timeSlots,
-  renderCard,
-}: LessonGridProps) {
+const LessonGrid = ({ lessons, timeSlots, renderCard }: LessonGridProps) => {
   return (
     <div className="px-6">
       <div className="flex flex-col gap-4">
@@ -31,4 +27,6 @@ export default function LessonGrid({
       </div>
     </div>
   );
-}
+};
+
+export default LessonGrid;
