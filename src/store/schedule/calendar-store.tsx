@@ -55,4 +55,4 @@ class CalendarStore {
   }
 }
 
-export default new CalendarStore()
+export default new CalendarStore();

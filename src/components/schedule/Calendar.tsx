@@ -2,7 +2,6 @@ import * as calendar from "./utils/calendar";
 import { useStores } from "@/root-store-context";
 import { observer } from "mobx-react-lite";
 
-
 const Calendar = observer(() => {
   const { calendarStore } = useStores();
 
@@ -16,7 +15,7 @@ const Calendar = observer(() => {
   };
 
   const handleDateClick = (date: Date) => {
-    calendarStore.setDate(date)
+    calendarStore.setDate(date);
   };
 
   return (
@@ -73,4 +72,4 @@ const Calendar = observer(() => {
   );
 });
 
-export default Calendar
+export default Calendar;

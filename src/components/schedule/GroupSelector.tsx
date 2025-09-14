@@ -11,10 +11,11 @@ const GroupSelector = observer(() => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const { groupStore } = useStores();
+  const { groupStore,calendarStore } = useStores();
 
   const handleGroupSelect = (group: Group) => {
     groupStore.setSelectredGroup(group);
+    calendarStore.resetToToday()
     setSearchParams({ group: group.id.toString() });
   };
 

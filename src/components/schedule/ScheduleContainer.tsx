@@ -4,7 +4,7 @@ import { TimeSlot } from "@/types";
 import { observer } from "mobx-react-lite";
 import { useStores } from "@/root-store-context";
 import { useEffect } from "react";
-
+import CenterText from "../generic/CenterText";
 
 const ScheduleContainer = observer(() => {
   const { scheduleStore, calendarStore, groupStore } = useStores();
@@ -26,12 +26,14 @@ const ScheduleContainer = observer(() => {
   const filtredLessons = scheduleStore.getFiltredLessons(
     calendarStore.selectedDayWeek
   );
-  return (
+  return scheduleStore.lessons.length>0 ? (
     <LessonGrid
       lessons={filtredLessons}
       timeSlots={timeSlots}
       renderCard={(lesson) => <LessonCard lesson={lesson} />}
     />
+  ) : (
+    <CenterText message="Выберите группу" />
   );
 });
 
