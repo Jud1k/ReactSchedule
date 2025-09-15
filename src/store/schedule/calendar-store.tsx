@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 
 class CalendarStore {
   private _selectedDate = new Date();
-  
+
   readonly monthNames: string[] = [
     "Январь",
     "Февраль",

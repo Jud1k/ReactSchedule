@@ -1,10 +1,11 @@
 import * as calendar from "./utils/calendar";
 import { useStores } from "@/root-store-context";
 import { observer } from "mobx-react-lite";
+import useAppSearchParams from "./hooks/useAppSearchParams";
 
 const Calendar = observer(() => {
   const { calendarStore } = useStores();
-
+  const {updateParams} = useAppSearchParams()
   const monthData = calendar.getMonthData(
     calendarStore.currentYear,
     calendarStore.currentMonth
@@ -12,6 +13,7 @@ const Calendar = observer(() => {
 
   const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     calendarStore.setMonth(Number(e.target.value));
+    updateParams({month:e.target.value})
   };
 
   const handleDateClick = (date: Date) => {

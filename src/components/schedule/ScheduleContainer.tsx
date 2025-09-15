@@ -8,6 +8,7 @@ import CenterText from "../generic/CenterText";
 
 const ScheduleContainer = observer(() => {
   const { scheduleStore, calendarStore, groupStore } = useStores();
+  
   const timeSlots: TimeSlot[] = [
     { id: 1, duration: "9:00-10:35" },
     { id: 2, duration: "10:45-12:20" },

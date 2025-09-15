@@ -44,7 +44,8 @@ class AuthStore {
       });
       localStorage.setItem("token", result.access_token);
     } catch (e:any) {
-      this.error = e.response?.detail || "Login failed";
+      console.log(e)
+      this.error = e.response?.data?.detail || "Login failed";
       throw e
     } finally {
       this.isLoading = false;

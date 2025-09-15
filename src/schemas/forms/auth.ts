@@ -2,7 +2,7 @@ import z from "zod";
 
 export const loginFormSchema = z.object({
   email: z.email("Введите корректный email"),
-  password: z.string().min(6, "Пароль должен содержать минимум 6 символов"),
+  password: z.string().min(5, "Пароль должен содержать минимум 5 символов"),
 });
 
 export type LoginFormData = z.infer<typeof loginFormSchema>;
