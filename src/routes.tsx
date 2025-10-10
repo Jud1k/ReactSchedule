@@ -21,7 +21,7 @@ const RoutesProvider = () => {
       <Route
         path="admin"
         element={
-          <ProtectedRoute required_role="admin">
+          <ProtectedRoute required_role="user">
             <AdminLayout />
           </ProtectedRoute>
         }

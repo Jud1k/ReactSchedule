@@ -54,7 +54,7 @@ export default function Combobox<T>({
 
       try {
         const results = await onSearch(debouncedSearchTerm);
-        console.log(results)
+        console.log(results);
         setItems(results);
       } catch (e) {
         setItems([]);
@@ -64,7 +64,7 @@ export default function Combobox<T>({
     };
 
     loadItems();
-  }, [debouncedSearchTerm,onSearch]);
+  }, [debouncedSearchTerm]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
