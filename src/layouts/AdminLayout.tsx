@@ -1,7 +1,47 @@
 import UserAuthWidget from "@/components/auth/UserAuthWidget";
 import { Link, Outlet } from "react-router";
+import { SlGraduation, SlEvent } from "react-icons/sl";
+import { LuHouse, LuLayoutDashboard } from "react-icons/lu";
+import { IoMdBook } from "react-icons/io";
+import { GrGroup } from "react-icons/gr";
+import SidebarMenu from "@/components/generic/SidebarMenu";
+import SidebarMenuButton from "@/components/generic/SidebarMenuButton";
+import { IconType } from "react-icons/lib";
+import { useState } from "react";
+
+interface NavigationItem {
+  id: string;
+  title: string;
+  icon: IconType;
+  path: string;
+}
+
+const navigationItems: NavigationItem[] = [
+  {
+    id: "dashboard",
+    title: "Дешборд",
+    icon: LuLayoutDashboard,
+    path: "/admin",
+  },
+  {
+    id: "schedule",
+    title: "Расписание",
+    icon: SlEvent,
+    path: "/admin/schedule",
+  },
+  { id: "subjects", title: "Предметы", icon: IoMdBook, path: "/admin/subject" },
+  {
+    id: "teachers",
+    title: "Преподаватели",
+    icon: SlGraduation,
+    path: "/admin/teacher",
+  },
+  { id: "groups", title: "Группы", icon: GrGroup, path: "/admin/group" },
+  { id: "rooms", title: "Аудитории", icon: LuHouse, path: "/admin/room" },
+];
 
 export default function AdminLayout() {
+  const [activeItem, setActiveItem] = useState<string>("dashboard");
   return (
     <div className="flex flex-col min-h-screen">
       <header className="navbar bg-green-600 shadow-sm px-4">
@@ -16,43 +56,19 @@ export default function AdminLayout() {
       </header>
 
       <div className="flex flex-1">
-        <aside className="w-64 min-h-[calc(100vh-64px)] bg-base-200 p-4">
-          <div className="flex items-center gap-2 mb-6">
-            <span className="text-xl font-bold">Меню</span>
-          </div>
-          <nav>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  to="/admin"
-                  className="flex items-center gap-2 p-2 rounded-lg"
-                >
-                  📊 Дашборд
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/admin/schedule"
-                  className="flex items-center gap-2 p-2 rounded-lg hover:bg-base-300 transition-colors"
-                >
-                  🗓️ Расписание
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/admin/settings"
-                  className="flex items-center gap-2 p-2 rounded-lg text-gray-400 cursor-not-allowed"
-                  onClick={(e) => {
-                    e.preventDefault();
-                  }}
-                  aria-disabled={true}
-                >
-                  ⚙️ Настройки
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </aside>
+        <SidebarMenu>
+          {navigationItems.map((item) => (
+            <SidebarMenuButton
+              path={item.path}
+              key={item.id}
+              onClick={() => setActiveItem(item.id)}
+              isActive={item.id === activeItem}
+            >
+              <item.icon />
+              <span>{item.title}</span>
+            </SidebarMenuButton>
+          ))}
+        </SidebarMenu>
 
         <main className="flex-grow p-4">
           <Outlet />
