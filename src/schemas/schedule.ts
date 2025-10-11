@@ -1,13 +1,25 @@
-import {z} from "zod";
+import { z } from "zod";
 
 export const groupSchema = z.object({
   id: z.number(),
   name: z.string(),
 });
 
-export const groupArraySchema = z.array(groupSchema)
+export const groupArraySchema = z.array(groupSchema);
 
 export type Group = z.infer<typeof groupSchema>;
+
+export const groupSummarySchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  course: z.number(),
+  institute: z.string(),
+  count_students: z.number(),
+});
+
+export const groupSummaryArraySchema = z.array(groupSummarySchema);
+
+export type GroupSummary = z.infer<typeof groupSummarySchema>;
 
 export const audienceSchema = z.object({
   id: z.number(),
@@ -45,4 +57,4 @@ export const lessonSchema = z.object({
 
 export type Lesson = z.infer<typeof lessonSchema>;
 
-export const lessonArraySchema = z.array(lessonSchema)
+export const lessonArraySchema = z.array(lessonSchema);
