@@ -18,10 +18,10 @@ const RoutesProvider = () => {
       <Route element={<Layout />}>
         <Route index element={<HomePage />} />
         <Route path="schedule" element={<SchedulePage />} />
+        <Route path="login" element={<LoginPage />} />
       </Route>
 
       <Route path="register" element={<RegisterPage />} />
-      <Route path="login" element={<LoginPage />} />
 
       <Route
         path="admin"
@@ -35,8 +35,8 @@ const RoutesProvider = () => {
         <Route path="schedule" element={<SchedulePage />} />
         <Route path="subject" element={<SubjectPage />} />
         <Route path="teacher" element={<TeacherPage />} />
-        <Route path="group" element={<GroupPage />} />
         <Route path="room" element={<RoomPage />} />
+        <Route path="group" element={<GroupPage />} />
       </Route>
     </Routes>
   );
