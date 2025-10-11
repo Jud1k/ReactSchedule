@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { LoginFormData, loginFormSchema } from "@/schemas/forms/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { InputFiled1 } from "../generic/InputFiled1";
+import { FormInput } from "@/components/generic/FormInput";
 
 export default function LoginForm() {
   const { authStore } = useStores();
@@ -19,14 +19,14 @@ export default function LoginForm() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    try{
+    try {
       await authStore.login(data.email, data.password);
       navigate("/");
-    }catch(error){
-      setError("root",{
-        type:"manual",
-        message:authStore.error||"Ошибка авторизации"
-      })
+    } catch (error) {
+      setError("root", {
+        type: "manual",
+        message: authStore.error || "Ошибка авторизации",
+      });
     }
   };
 
@@ -47,14 +47,14 @@ export default function LoginForm() {
                 <span>{errors.root.message}</span>
               </div>
             )}
-            <InputFiled1
+            <FormInput
               label="Почта"
               type="email"
               placeholder="Введите почту"
               error={errors.email?.message}
               registration={register("email")}
             />
-            <InputFiled1
+            <FormInput
               label="Пароль"
               type="password"
               placeholder="Введите пароль"

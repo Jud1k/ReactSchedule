@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import { useForm } from "react-hook-form";
 import { LoginFormData, RegisterFormData, registerFormSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { InputFiled1 } from "../generic/InputFiled1";
+import { FormInput } from "@/components/generic/FormInput";
 
 export default observer(function RegisterForm() {
   const { authStore } = useStores();
@@ -15,12 +15,15 @@ export default observer(function RegisterForm() {
     handleSubmit,
     formState: { errors, isSubmitting },
     setError,
-  } = useForm<RegisterFormData>({ resolver: zodResolver(registerFormSchema),mode:"onChange" });
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerFormSchema),
+    mode: "onChange",
+  });
 
   const onSubmit = async (data: LoginFormData) => {
     try {
       await authStore.register(data.email, data.password);
-      await authStore.login(data.email,data.password)
+      await authStore.login(data.email, data.password);
       navigate("/");
     } catch (error) {
       setError("root", {
@@ -48,21 +51,21 @@ export default observer(function RegisterForm() {
               </div>
             )}
             <div className="form-control w-full max-w-xs">
-              <InputFiled1
+              <FormInput
                 label="Почта"
                 type="email"
                 placeholder="Введите почту"
                 error={errors.email?.message}
                 registration={register("email")}
               />
-              <InputFiled1
+              <FormInput
                 label="Пароль"
                 type="password"
                 placeholder="Введите пароль"
                 error={errors.password?.message}
                 registration={register("password")}
               />
-              <InputFiled1
+              <FormInput
                 label="Почта"
                 type="password"
                 placeholder="Повторите пароль"

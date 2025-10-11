@@ -1,5 +1,6 @@
 import { UseFormRegisterReturn } from "react-hook-form";
 import { FormError } from "./FormError";
+import { cn } from "@/lib/utils";
 
 interface InputFieldProps {
   label: string;
@@ -7,26 +8,30 @@ interface InputFieldProps {
   placeholder?: string;
   error?: string;
   registration: Partial<UseFormRegisterReturn>;
-  classname?: string;
+  className?: string;
 }
 
-export const InputFiled1 = ({
+export const FormInput = ({
   label,
   type = "text",
   placeholder,
   error,
   registration,
-  classname = "",
+  className = "",
 }: InputFieldProps) => {
   return (
-    <div className={`form-control w-full max-w-xs ${classname}`}>
+    <div className={cn("form-control w-full", className)}>
       <label className="label">
         <span className="label-text text-lg font-bold">{label}</span>
       </label>
       <input
         type={type}
         placeholder={placeholder}
-        className={`input input-bordered w-full ${error ? "input-error" : ""}`}
+        className={cn(
+          "input input-bordered w-full mt-2",
+          error && "input-error", // Правильное условие для ошибки
+          className
+        )}
         {...registration}
       ></input>
       <FormError message={error} />
