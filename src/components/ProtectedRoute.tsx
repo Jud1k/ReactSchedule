@@ -1,7 +1,7 @@
-import { useStores } from "@/root-store-context";
-import { RoleName } from "@/types";
-import { observer } from "mobx-react-lite";
-import { Navigate } from "react-router";
+import { useStores } from '@/app/root-store-context';
+import { RoleName } from '@/types';
+import { observer } from 'mobx-react-lite';
+import { Navigate } from 'react-router';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -14,10 +14,11 @@ const ProtectedRoute = observer(
 
     if (!authStore.isAuth) return <Navigate to="/login" />;
 
-    if (required_role && authStore.user.role_name !== required_role) return <Navigate to="/" />;
+    if (required_role && authStore.user.role_name !== required_role)
+      return <Navigate to="/" />;
 
     return <>{children}</>;
-  }
+  },
 );
 
 export default ProtectedRoute;

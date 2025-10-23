@@ -1,6 +1,5 @@
-import { Lesson } from "@/schemas";
-import ScheduleService from "@/services/ScheduleServie";
-import { makeAutoObservable, runInAction } from "mobx";
+import ScheduleService, { Lesson } from '@/features/schedule/api/service';
+import { makeAutoObservable, runInAction } from 'mobx';
 
 class ScheduleStore {
   lessons: Lesson[] = [];
@@ -39,4 +38,4 @@ class ScheduleStore {
   }
 }
 
-export default new ScheduleStore()
+export default new ScheduleStore();
