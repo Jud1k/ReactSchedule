@@ -1,7 +1,7 @@
-import authStore from "./auth-store";
-import calendarStore from "./schedule/calendar-store";
-import groupStore from "./schedule/group-store";
-import scheduleStore from "./schedule/schedule-store";
+import authStore from './auth-store';
+import calendarStore from './schedule/calendar-store';
+import groupStore from './schedule/group-store';
+import scheduleStore from './schedule/schedule-store';
 
 export default class RootStore {
   authStore = authStore;

@@ -1,5 +1,5 @@
-import { Group } from "@/schemas";
-import { makeAutoObservable } from "mobx";
+import { Group } from '@/features/group/api/service';
+import { makeAutoObservable } from 'mobx';
 
 class GroupStore {
   selectedGroup: Group | null = null;
