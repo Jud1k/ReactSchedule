@@ -1,6 +1,6 @@
-import { UseFormRegisterReturn } from "react-hook-form";
-import { FormError } from "./FormError";
-import { cn } from "@/lib/utils";
+import { UseFormRegisterReturn } from 'react-hook-form';
+import { FormError } from './FormError';
+import { cn } from '@/lib/utils';
 
 interface InputFieldProps {
   label: string;
@@ -13,14 +13,14 @@ interface InputFieldProps {
 
 export const FormInput = ({
   label,
-  type = "text",
+  type = 'text',
   placeholder,
   error,
   registration,
-  className = "",
+  className = '',
 }: InputFieldProps) => {
   return (
-    <div className={cn("form-control w-full", className)}>
+    <div className={cn('form-control w-full', className)}>
       <label className="label">
         <span className="label-text text-lg font-bold">{label}</span>
       </label>
@@ -28,9 +28,9 @@ export const FormInput = ({
         type={type}
         placeholder={placeholder}
         className={cn(
-          "input input-bordered w-full mt-2",
-          error && "input-error", // Правильное условие для ошибки
-          className
+          'input input-bordered w-full mt-2',
+          error && 'input-error', // Правильное условие для ошибки
+          className,
         )}
         {...registration}
       ></input>

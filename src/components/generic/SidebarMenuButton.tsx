@@ -1,24 +1,24 @@
-import { Link } from "react-router";
+import { Link } from 'react-router';
 
 interface SidebarMenuButtonProps {
   isActive: boolean;
   children: React.ReactNode;
   path: string;
-  onClick:()=>void
+  onClick: () => void;
 }
 
 export default function SidebarMenuButton({
   isActive,
   children,
   path,
-  onClick
+  onClick,
 }: SidebarMenuButtonProps) {
   return (
     <li>
       <Link
         to={path}
         className={`flex items-center gap-2 p-2 rounded-lg transition-colors ${
-          isActive ? "bg-base-300 font-semibold" : "hover:bg-base-300"
+          isActive ? 'bg-base-300 font-semibold' : 'hover:bg-base-300'
         }`}
         onClick={onClick}
       >

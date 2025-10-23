@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import useDebounce from "../schedule/hooks/useDebounce";
-import Spinner from "./Spinner";
+import { useEffect, useRef, useState } from 'react';
+import useDebounce from '../../features/schedule/hooks/useDebounce';
+import Spinner from './Spinner';
 
 interface ComboboxProps<T> {
   onSelect: (item: T) => void;
@@ -22,7 +22,7 @@ export default function Combobox<T>({
   debounceTime = 500,
 }: ComboboxProps<T>) {
   const [items, setItems] = useState<T[]>([]);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
   const debouncedSearchTerm = useDebounce(inputValue, debounceTime);
   const [isListOpen, setIsListOpen] = useState(false);
   const [isWaitingForDebounce, setIsWaitingForDebounce] = useState(false);
@@ -40,8 +40,8 @@ export default function Combobox<T>({
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   useEffect(() => {

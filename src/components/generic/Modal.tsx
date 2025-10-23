@@ -1,22 +1,19 @@
-import { useEffect, useRef } from "react";
-import { FaPlusCircle } from "react-icons/fa";
+import { useEffect, useRef } from 'react';
 
 interface ModalProps {
-  title: string;
   header: string;
+  triggerButton: React.ReactElement;
   children: React.ReactNode;
   isOpen?: boolean;
-  onClick: () => void;
   onClose: () => void;
 }
 
 export default function Modal({
-  title,
   header,
+  triggerButton,
   children,
   isOpen,
   onClose,
-  onClick,
 }: ModalProps) {
   const modalRef = useRef<HTMLDialogElement>(null);
   useEffect(() => {
@@ -29,10 +26,7 @@ export default function Modal({
 
   return (
     <>
-      <button className="btn" onClick={() => onClick()}>
-        <FaPlusCircle/>
-        {title}
-      </button>
+      {triggerButton}
       <dialog
         ref={modalRef}
         className="modal transition-all duration-300 backdrop:bg-black/60"
