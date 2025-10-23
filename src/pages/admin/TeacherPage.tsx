@@ -1,5 +1,5 @@
-const TeacherPage = () => {
-  return <div>GroupPage</div>;
-};
+import React from 'react';
 
-export default TeacherPage;
+export default function TeacherPage() {
+  return <div>TeacherPage</div>;
+}
