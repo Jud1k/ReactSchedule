@@ -24,6 +24,11 @@ export const apiRoutes = {
     base: '/building',
   },
 
+  subject: {
+    base: '/subject',
+    byId: (id: number) => `/subject/${id}`,
+  },
+
   schedule: {
     base: '/schedule',
     lessons: '/schedule/lessons',
