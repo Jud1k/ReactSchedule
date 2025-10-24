@@ -43,8 +43,8 @@ export default class RoomService {
     return buildingArraySchema.parse(response.data);
   }
 
-  static async createRoom(data: CreateRoomForm): Promise<CreateRoomForm> {
-    const resonse = await api.post(apiRoutes.room.base, data);
+  static async createRoom(room: CreateRoomForm): Promise<CreateRoomForm> {
+    const resonse = await api.post(apiRoutes.room.base, room);
     return createRoomFormSchema.parse(resonse.data);
   }
 
@@ -59,7 +59,7 @@ export default class RoomService {
     return roomSchema.parse(response.data);
   }
 
-  static async deleteRoom(roomId: number): Promise<string> {
+  static async deleteRoom(roomId: number): Promise<void> {
     const response = await api.delete(apiRoutes.room.byId(roomId));
     return response.data;
   }

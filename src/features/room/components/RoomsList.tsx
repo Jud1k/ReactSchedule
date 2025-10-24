@@ -42,7 +42,7 @@ export const RoomsList = () => {
             </div>
             <div className="flex-1 min-w-0">
               <Select onChange={(e) => setSelectedBuilding(e.target.value)}>
-                <option value={'all'}>Все аудитории</option>
+                <option value={'all'}>Все копрусы</option>
                 {buildings?.map((build) => (
                   <option key={build.id} value={build.name}>
                     {build.name}

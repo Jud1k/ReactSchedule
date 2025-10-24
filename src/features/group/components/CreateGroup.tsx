@@ -29,7 +29,6 @@ export const CreateGroup = () => {
     mutationConfig: {
       onSuccess: () => {
         setIsModalOpen(false);
-        reset();
       },
     },
   });
@@ -41,7 +40,6 @@ export const CreateGroup = () => {
         <Button
           icon={<Create />}
           onClick={() => {
-            reset();
             setIsModalOpen(true);
           }}
         >
@@ -49,7 +47,10 @@ export const CreateGroup = () => {
         </Button>
       }
       isOpen={isModalOpen}
-      onClose={() => setIsModalOpen(false)}
+      onClose={() => {
+        setIsModalOpen(false);
+        reset();
+      }}
     >
       <form
         onSubmit={handleSubmit((data) => createGroupMutation.mutate(data))}
@@ -86,13 +87,13 @@ export const CreateGroup = () => {
           ))}
         </FormSelect>
         <div className="form-control w-full">
-          <button
+          <Button
             type="submit"
-            className="btn w-full"
+            className="w-full"
             disabled={createGroupMutation.isPending}
           >
             Добавить группу
-          </button>
+          </Button>
         </div>
       </form>
     </Modal>

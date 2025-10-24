@@ -36,7 +36,6 @@ export const CreateRoom = () => {
     mutationConfig: {
       onSuccess: () => {
         setIsModalOpen(false);
-        reset();
       },
     },
   });
@@ -51,7 +50,6 @@ export const CreateRoom = () => {
         <Button
           icon={<Create />}
           onClick={() => {
-            reset();
             setIsModalOpen(true);
           }}
         >
@@ -113,13 +111,13 @@ export const CreateRoom = () => {
           <span className="text-sm font-medium">Аудитория доступна</span>
         </div>
         <div className="form-control w-full">
-          <button
+          <Button
             type="submit"
-            className="btn w-full"
+            className="w-full"
             disabled={createRoomMutation.isPending}
           >
             Добавить аудиторию
-          </button>
+          </Button>
         </div>
       </form>
     </Modal>

@@ -50,7 +50,7 @@ export default class GroupService {
     return groupSchema.parse(response.data);
   }
 
-  static async deleteGroup(groupId: number): Promise<string> {
+  static async deleteGroup(groupId: number): Promise<void> {
     const response = await api.delete(apiRoutes.group.byId(groupId));
     return response.data;
   }
