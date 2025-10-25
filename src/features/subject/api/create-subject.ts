@@ -6,9 +6,12 @@ import { useErrorHandler } from '@/hooks/useErrorHandler';
 import { getSubjectsQueryOptions } from './get-subjects';
 
 export const createSubjectFormSchema = z.object({
-  name: z.string(),
-  semester: z.number(),
-  total_hours: z.number(),
+  name: z.string().min(3, 'Поле должно содержать минимум 3 символа'),
+  semester: z
+    .number()
+    .gt(0, 'Семестр должен быть больше 0')
+    .lt(16, 'Семестр должен быть меньше 16'),
+  total_hours: z.number().gt(0, 'Кол-во часов должно быть больше 0'),
   is_optional: z.boolean(),
 });
 

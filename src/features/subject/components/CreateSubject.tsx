@@ -57,11 +57,11 @@ export const CreateSubject = () => {
           error={errors.name?.message}
         ></FormInput>
         <FormInput
-          label="Cеместра"
+          label="Cеместр"
           placeholder="Введите номер семестра"
           type="number"
           registration={register('semester', {
-            setValueAs: (value) => (value === '' ? undefined : Number(value)),
+            setValueAs: (value) => (value === undefined ? '' : Number(value)),
           })}
           error={errors.semester?.message}
         ></FormInput>
@@ -70,7 +70,7 @@ export const CreateSubject = () => {
           placeholder="Введите количество часов"
           type="number"
           registration={register('total_hours', {
-            setValueAs: (value) => (value === '' ? undefined : Number(value)),
+            setValueAs: (value) => (value === undefined ? '' : Number(value)),
           })}
           error={errors.total_hours?.message}
         ></FormInput>

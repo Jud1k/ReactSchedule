@@ -64,7 +64,7 @@ export const UpdateSubject = ({ subject }: UpdateSubjectProps) => {
           error={errors.name?.message}
         ></FormInput>
         <FormInput
-          label="Cеместра"
+          label="Cеместр"
           placeholder="Введите номер семестра"
           type="number"
           registration={register('semester', {

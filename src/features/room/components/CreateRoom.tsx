@@ -110,15 +110,13 @@ export const CreateRoom = () => {
           />
           <span className="text-sm font-medium">Аудитория доступна</span>
         </div>
-        <div className="form-control w-full">
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={createRoomMutation.isPending}
-          >
-            Добавить аудиторию
-          </Button>
-        </div>
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={createRoomMutation.isPending}
+        >
+          Добавить аудиторию
+        </Button>
       </form>
     </Modal>
   );

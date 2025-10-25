@@ -86,15 +86,13 @@ export const CreateGroup = () => {
             </option>
           ))}
         </FormSelect>
-        <div className="form-control w-full">
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={createGroupMutation.isPending}
-          >
-            Добавить группу
-          </Button>
-        </div>
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={createGroupMutation.isPending}
+        >
+          Добавить группу
+        </Button>
       </form>
     </Modal>
   );
