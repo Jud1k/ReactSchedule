@@ -11,6 +11,7 @@ import DashboardPage from '../pages/admin/DashboardPage';
 import SubjectPage from '../pages/admin/SubjectPage';
 import TeacherPage from '../pages/admin/TeacherPage';
 import RoomPage from '../pages/admin/RoomPage';
+import LessonPage from '@/pages/admin/LessonPage';
 
 const RoutesProvider = () => {
   return (
@@ -32,7 +33,7 @@ const RoutesProvider = () => {
         }
       >
         <Route index element={<DashboardPage />} />
-        <Route path="schedule" element={<SchedulePage />} />
+        <Route path="schedule" element={<LessonPage />} />
         <Route path="subject" element={<SubjectPage />} />
         <Route path="teacher" element={<TeacherPage />} />
         <Route path="room" element={<RoomPage />} />
