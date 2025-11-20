@@ -21,7 +21,7 @@ createRoot(root).render(
       rtl={false}
       pauseOnFocusLoss
       draggable
-      pauseOnHover={false}
+      pauseOnHover
       theme="light"
       style={{ zIndex: 9999 }}
       transition={Flip}
