@@ -33,7 +33,7 @@ class AuthStore {
     try {
       await AuthService.register({ email, password });
     } catch (e: any) {
-      this.error = e.response?.data?.detail || 'Registration failed';
+      this.error = e.response?.data?.detail;
       throw e;
     } finally {
       this.isLoading = false;
@@ -52,7 +52,7 @@ class AuthStore {
       localStorage.setItem('token', result.access_token);
     } catch (e: any) {
       console.log(e);
-      this.error = e.response?.data?.detail || 'Login failed';
+      this.error = e.response?.data?.detail;
       throw e;
     } finally {
       this.isLoading = false;
