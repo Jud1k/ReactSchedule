@@ -14,7 +14,7 @@ const ProtectedRoute = observer(
 
     if (!authStore.isAuth) return <Navigate to="/login" />;
 
-    if (required_role && authStore.user.role_name !== required_role)
+    if (required_role && authStore.user.role !== required_role)
       return <Navigate to="/" />;
 
     return <>{children}</>;
