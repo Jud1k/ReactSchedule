@@ -1,21 +1,10 @@
-import { useStores } from '@/app/root-store-context';
-import { observer } from 'mobx-react-lite';
-import { useEffect, useState } from 'react';
+import useAuth, { isLoggedIn } from '@/hooks/useAuth';
 import { Link } from 'react-router';
 
-const UserAuthWidget = observer(() => {
-  const { authStore } = useStores();
-  const [initLoad, setInitLoad] = useState(true);
+const UserAuthWidget = () => {
+  const { user, logoutMutation } = useAuth();
 
-  useEffect(() => {
-    const timer = setTimeout(() => setInitLoad(false), 500);
-    if (localStorage.getItem('token') && !authStore.isAuth) {
-      authStore.checkAuth();
-    }
-    return () => clearTimeout(timer);
-  }, [authStore]);
-
-  if (initLoad || authStore.isLoading) {
+  if (isLoggedIn() && !user) {
     return (
       <div className="flex items-center justify-center w-10 h-10">
         <div className="w-8 h-8 rounded-full bg-gray-100 animate-pulse"></div>
@@ -23,7 +12,7 @@ const UserAuthWidget = observer(() => {
     );
   }
 
-  return authStore.isAuth ? (
+  return user && isLoggedIn() ? (
     <div className="dropdown dropdown-end">
       <div
         tabIndex={0}
@@ -33,7 +22,7 @@ const UserAuthWidget = observer(() => {
         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary via-secondary to-accent text-white flex items-center justify-center font-bold text-lg relative">
           {/* Буква почты */}
           <span className="absolute inset-0 flex items-center justify-center">
-            {authStore.user?.email?.[0]?.toUpperCase() ?? 'U'}
+            {user?.email?.[0]?.toUpperCase() ?? 'U'}
           </span>
 
           {/* Эффект свечения при наведении */}
@@ -52,8 +41,8 @@ const UserAuthWidget = observer(() => {
         </li>
         <li>
           <button
-            onClick={() => authStore.logout()}
-            disabled={authStore.isLoading}
+            onClick={() => logoutMutation.mutateAsync()}
+            disabled={logoutMutation.isPending}
             className="w-full text-left hover:bg-error/10 hover:text-error disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Выйти
@@ -69,6 +58,6 @@ const UserAuthWidget = observer(() => {
       Войти
     </Link>
   );
-});
+};
 
 export default UserAuthWidget;
