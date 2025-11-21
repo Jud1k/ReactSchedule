@@ -15,7 +15,7 @@ import { useState } from 'react';
 import { Button } from '@/components/generic/Button';
 
 interface UpdateGroupProps {
-  groupId: number;
+  groupId: string;
 }
 
 export const UpdateGroup = ({ groupId }: UpdateGroupProps) => {
@@ -63,7 +63,7 @@ export const UpdateGroup = ({ groupId }: UpdateGroupProps) => {
           <FormInput
             label="Название группы"
             placeholder="Введите название группы"
-            error={errors.name?.message}
+            errorText={errors.name?.message}
             registration={register('name')}
           />
           <FormSelect
@@ -71,7 +71,7 @@ export const UpdateGroup = ({ groupId }: UpdateGroupProps) => {
             registration={register('course', {
               setValueAs: (value) => (value === '' ? undefined : Number(value)),
             })}
-            error={errors.course?.message}
+            errorText={errors.course?.message}
           >
             {COURSES.map((course) => (
               <option key={course} value={course}>
@@ -82,7 +82,7 @@ export const UpdateGroup = ({ groupId }: UpdateGroupProps) => {
           <FormSelect
             label="Институт"
             registration={register('institute')}
-            error={errors.institute?.message}
+            errorText={errors.institute?.message}
           >
             {INSTITUTIES.map((inst) => (
               <option key={inst} value={inst}>
