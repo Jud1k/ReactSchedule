@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import useDebounce from '../../features/schedule/hooks/useDebounce';
+import useDebounce from '@/hooks/useDebounce';
 import Spinner from './Spinner';
 
 interface ComboboxProps<T> {
@@ -76,6 +76,7 @@ export default function Combobox<T>({
   const handleItemSelect = (item: T) => {
     onSelect(item);
     setIsListOpen(false);
+    setInputValue('');
   };
 
   const shouldShowList = isListOpen && inputValue; // Показывать список только если он открыт и есть ввод
