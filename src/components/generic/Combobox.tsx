@@ -56,7 +56,7 @@ export default function Combobox<T>({
         const results = await onSearch(debouncedSearchTerm);
         console.log(results);
         setItems(results);
-      } catch (e) {
+      } catch {
         setItems([]);
       } finally {
         setIsWaitingForDebounce(false);
