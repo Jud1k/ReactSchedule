@@ -1,24 +1,26 @@
-import { useStores } from '@/app/root-store-context';
+import useAuth, { isLoggedIn } from '@/hooks/useAuth';
 import { RoleName } from '@/types';
-import { observer } from 'mobx-react-lite';
 import { Navigate } from 'react-router';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  required_role?: RoleName;
+  requiredRole?: RoleName;
 }
 
-const ProtectedRoute = observer(
-  ({ children, required_role }: ProtectedRouteProps) => {
-    const { authStore } = useStores();
+const ProtectedRoute = ({
+  children,
+  requiredRole = 'user',
+}: ProtectedRouteProps) => {
+  const { user, isLoading } = useAuth();
 
-    if (!authStore.isAuth) return <Navigate to="/login" />;
+  if (isLoading) return <div>Проверка авторизации...</div>;
 
-    if (required_role && authStore.user.role !== required_role)
-      return <Navigate to="/" />;
+  if (!isLoggedIn || user?.role !== requiredRole)
+    return <Navigate to="/login" />;
 
-    return <>{children}</>;
-  },
-);
+  if (user && user?.role !== requiredRole) return <Navigate to="/" />;
+
+  return <>{children}</>;
+};
 
 export default ProtectedRoute;
