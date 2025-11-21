@@ -18,7 +18,7 @@ export const TeachersList = () => {
 
   const filtredTeachers = teachers?.filter((teacher) => {
     const query = searchQuery.toLowerCase().trim();
-    const matchesSearch = teacher.name.toLowerCase().includes(query);
+    const matchesSearch = teacher.last_name.toLowerCase().includes(query);
     const matchesDepartments =
       selectedDepartment === 'all' || selectedDepartment === teacher.department;
     return matchesSearch && matchesDepartments;
@@ -67,15 +67,20 @@ export const TeachersList = () => {
               <tbody>
                 {filtredTeachers?.map((teacher) => (
                   <tr key={teacher.id}>
-                    <th>{teacher.name}</th>
+                    <th>
+                      {teacher.last_name} {teacher.first_name[0].toUpperCase()}.{' '}
+                      {teacher.middle_name
+                        ? `${teacher.middle_name[0]?.toUpperCase()}.`
+                        : ''}
+                    </th>
                     <td>{teacher.department}</td>
                     <td>{teacher.title}</td>
                     <td>
                       <HiOutlineMail className="inline mr-1" />
-                      {teacher.email}
+                      {teacher.email ? teacher.email : ' —'}
                       <br />
                       <MdPhoneIphone className="inline mr-1" />
-                      {teacher.phone}
+                      {teacher.phone ? teacher.phone : ' —'}
                     </td>
                     <td>
                       <UpdateTeacher teacher={teacher} />

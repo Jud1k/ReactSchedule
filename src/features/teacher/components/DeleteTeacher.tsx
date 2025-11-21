@@ -3,7 +3,7 @@ import { useDeleteTeacher } from '../api/delete-teacher';
 import { Button } from '@/components/generic/Button';
 
 interface DeleteTeacherProps {
-  teacherId: number;
+  teacherId: string;
 }
 
 export const DeleteTeacher = ({ teacherId }: DeleteTeacherProps) => {
