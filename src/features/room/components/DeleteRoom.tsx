@@ -3,7 +3,7 @@ import { Delete } from '@/components/generic/Icons';
 import { useDeleteRoom } from '../api/delete-room';
 
 interface DeleteRoomProps {
-  roomId: number;
+  roomId: string;
 }
 
 export const DeleteRoom = ({ roomId }: DeleteRoomProps) => {

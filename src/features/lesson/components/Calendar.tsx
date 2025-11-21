@@ -1,15 +1,26 @@
 import * as calendar from '../utils/calendar';
 import { useStores } from '@/app/root-store-context';
 import { observer } from 'mobx-react-lite';
-import useAppSearchParams from '../hooks/useAppSearchParams';
+import useAppSearchParams from '@/hooks/useAppSearchParams';
+import { useEffect } from 'react';
+import { Button } from '@/components/generic/Button';
 
-const Calendar = observer(() => {
-  const { calendarStore } = useStores();
-  const { updateParams } = useAppSearchParams();
+export const Calendar = observer(() => {
+  const { calendarStore, scheduleStore } = useStores();
+  const { updateParams, getParam } = useAppSearchParams();
   const monthData = calendar.getMonthData(
     calendarStore.currentYear,
     calendarStore.currentMonth,
   );
+  const monthId = getParam('month');
+
+  useEffect(() => {
+    if (monthId) {
+      calendarStore.setMonth(Number(monthId));
+    } else {
+      calendarStore.resetToToday();
+    }
+  }, [calendarStore, monthId]);
 
   const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     calendarStore.setMonth(Number(e.target.value));
@@ -52,16 +63,25 @@ const Calendar = observer(() => {
                 {week.map((date, dayIndex) => (
                   <td key={dayIndex} className="p-0">
                     {date && (
-                      <button
-                        className={`btn btn-md h-10 w-10 ${
+                      <Button
+                        className={`h-10 w-10 ${
                           calendar.areEqual(date, calendarStore.selectedDate)
                             ? 'border-accent'
                             : ''
                         }`}
-                        onClick={() => handleDateClick(date)}
+                        variant={
+                          scheduleStore.lessons.some(
+                            (lesson) => date.getDay() === lesson.day_of_week,
+                          )
+                            ? 'base'
+                            : 'default'
+                        }
+                        onClick={() => {
+                          handleDateClick(date);
+                        }}
                       >
                         {date?.getDate()}
-                      </button>
+                      </Button>
                     )}
                   </td>
                 ))}
@@ -73,5 +93,3 @@ const Calendar = observer(() => {
     </div>
   );
 });
-
-export default Calendar;

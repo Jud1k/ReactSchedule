@@ -1,5 +1,5 @@
 import { CreateSubject } from '@/features/subject/components/CreateSubject';
-import { SubjectList } from '@/features/subject/components/SubjectList';
+import { SubjectsList } from '@/features/subject/components/SubjectsList';
 
 const SubjectPage = () => {
   return (
@@ -15,7 +15,7 @@ const SubjectPage = () => {
         </div>
         <CreateSubject />
       </div>
-      <SubjectList />
+      <SubjectsList />
     </>
   );
 };

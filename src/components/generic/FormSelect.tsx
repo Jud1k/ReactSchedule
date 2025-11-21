@@ -1,13 +1,14 @@
 import { cn } from '@/lib/utils';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { FormError } from './FormError';
+import { SelectHTMLAttributes } from 'react';
 
-interface SelectProps {
+interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label: string;
   className?: string;
   children: React.ReactNode;
   registration?: Partial<UseFormRegisterReturn>;
-  error?: string;
+  errorText?: string;
 }
 
 export default function FormSelect({
@@ -15,7 +16,7 @@ export default function FormSelect({
   label,
   children,
   registration,
-  error,
+  errorText,
   ...props
 }: SelectProps) {
   return (
@@ -25,8 +26,8 @@ export default function FormSelect({
       </label>
       <select
         className={cn(
-          'select select-bordered w-full mt-2',
-          error && 'select-error',
+          'select w-full mt-2',
+          errorText && 'select-error',
           className,
         )}
         {...registration}
@@ -34,7 +35,7 @@ export default function FormSelect({
       >
         {children}
       </select>
-      {error && <FormError message={error} />}
+      {errorText && <FormError message={errorText} />}
     </div>
   );
 }

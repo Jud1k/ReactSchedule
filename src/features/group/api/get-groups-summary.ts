@@ -4,7 +4,7 @@ import { QueryConfig } from '@/lib/react-query';
 
 export const getGroupsSummaryQueryOption = () => {
   return queryOptions({
-    queryKey: ['groups'],
+    queryKey: ['groupssummary'],
     queryFn: () => GroupService.fetchGroupSummary(),
   });
 };

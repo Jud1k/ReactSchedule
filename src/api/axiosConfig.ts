@@ -34,7 +34,7 @@ api.interceptors.response.use(
     if (error.status == 401 && error.config && !error.config._isRetry) {
       originalRequest._isRetry = true;
       try {
-        const response = await axios.get<AuthResponse>(
+        const response = await axios.post<AuthResponse>(
           `${API_URL}${apiRoutes.auth.refresh}`,
           { withCredentials: true },
         );

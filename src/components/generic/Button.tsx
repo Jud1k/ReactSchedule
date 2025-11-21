@@ -8,11 +8,11 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: '',
+        base: 'bg-green-600',
         primary: 'btn-primary',
         secondary: 'btn-secondary',
         accent: 'btn-accent',
         ghost: 'btn-ghost',
-        link: 'btn-link',
         success: 'btn-success',
         warning: 'btn-warning',
         error: 'btn-error',

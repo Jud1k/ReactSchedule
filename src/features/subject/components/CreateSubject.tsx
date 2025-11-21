@@ -54,7 +54,7 @@ export const CreateSubject = () => {
           placeholder="Введите название предмета"
           type="text"
           registration={register('name')}
-          error={errors.name?.message}
+          errorText={errors.name?.message}
         ></FormInput>
         <FormInput
           label="Cеместр"
@@ -63,7 +63,7 @@ export const CreateSubject = () => {
           registration={register('semester', {
             setValueAs: (value) => (value === undefined ? '' : Number(value)),
           })}
-          error={errors.semester?.message}
+          errorText={errors.semester?.message}
         ></FormInput>
         <FormInput
           label="Количество часов"
@@ -72,11 +72,11 @@ export const CreateSubject = () => {
           registration={register('total_hours', {
             setValueAs: (value) => (value === undefined ? '' : Number(value)),
           })}
-          error={errors.total_hours?.message}
+          errorText={errors.total_hours?.message}
         ></FormInput>
         <div className="flex items-center gap-4 w-full">
           <Switch registration={register('is_optional')} />
-          <span className="text-sm font-medium">Аудитория доступна</span>
+          <span className="text-sm font-medium">Предмет обязателен</span>
         </div>
         <Button
           type="submit"

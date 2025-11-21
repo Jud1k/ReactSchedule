@@ -16,7 +16,7 @@ import {
 import { useRoom } from '../api/get-room';
 
 interface UpdateRoomProps {
-  roomId: number;
+  roomId: string;
 }
 
 export const UpdateRoom = ({ roomId }: UpdateRoomProps) => {
@@ -84,7 +84,7 @@ export const UpdateRoom = ({ roomId }: UpdateRoomProps) => {
           label="Название аудитории"
           placeholder="Введите название аудитории"
           registration={register('name')}
-          error={errors.name?.message}
+          errorText={errors.name?.message}
         />
         <FormInput
           label="Номер этажа"
@@ -93,7 +93,7 @@ export const UpdateRoom = ({ roomId }: UpdateRoomProps) => {
           registration={register('floor', {
             setValueAs: (value) => (value === undefined ? '' : Number(value)),
           })}
-          error={errors.floor?.message}
+          errorText={errors.floor?.message}
         />
         <FormInput
           label="Вместимость"
@@ -102,14 +102,14 @@ export const UpdateRoom = ({ roomId }: UpdateRoomProps) => {
           registration={register('capacity', {
             setValueAs: (value) => (value === undefined ? '' : Number(value)),
           })}
-          error={errors.capacity?.message}
+          errorText={errors.capacity?.message}
         />
         <FormSelect
           label="Корпус"
           registration={register('building_id', {
             setValueAs: (value) => (value === undefined ? '' : Number(value)),
           })}
-          error={errors.building_id?.message}
+          errorText={errors.building_id?.message}
         >
           {buildings?.map((build) => (
             <option key={build.id} value={build.id}>

@@ -6,7 +6,9 @@ export const useErrorHandler = () => {
     if (axios.isAxiosError(error)) {
       const message = error.response?.data?.detail;
       toast.error(message);
+      console.log(error);
     } else if (error instanceof Error) {
+      console.log(error);
       toast.error(error.message);
     } else {
       console.log('Unknown error: ', error);

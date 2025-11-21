@@ -7,7 +7,7 @@ import { useSubjects } from '../api/get-subjects';
 import { DeleteSubject } from './DeleteSubject';
 import { UpdateSubject } from './UpdateSubject';
 
-export const SubjectList = () => {
+export const SubjectsList = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedRequired, setSelectedRequired] = useState<string>('all');
 
@@ -51,7 +51,7 @@ export const SubjectList = () => {
         </PanelBody>
       </Panel>
       <Panel>
-        <PanelHeader>Аудитории ({subjects?.length})</PanelHeader>
+        <PanelHeader>Предметы ({subjects?.length})</PanelHeader>
         <PanelBody>
           <div className="overflow-x-auto">
             <table className="table">

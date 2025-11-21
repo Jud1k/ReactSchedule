@@ -5,7 +5,7 @@ import { UpdateGroupForm } from './update-group';
 import { apiRoutes } from '@/api/apiRoutes';
 
 export const groupSchema = z.object({
-  id: z.number(),
+  id: z.number().transform((val) => val.toString()),
   name: z.string(),
   course: z.number(),
   institute: z.string(),
@@ -35,11 +35,14 @@ export default class GroupService {
     return groupArraySchema.parse(response.data);
   }
 
-  static async fetchGroup(groupId: number): Promise<Group> {
+  static async fetchGroup(groupId: string): Promise<Group> {
     const response = await api.get<Group>(apiRoutes.group.byId(groupId));
     return groupSchema.parse(response.data);
   }
-
+  static async fetchGroups(): Promise<Group[]> {
+    const response = await api.get(apiRoutes.group.base);
+    return groupArraySchema.parse(response.data);
+  }
   static async fetchGroupSummary(): Promise<GroupSummary[]> {
     const response = await api.get<GroupSummary[]>(apiRoutes.group.summary);
     return groupSummaryArraySchema.parse(response.data);
@@ -50,7 +53,7 @@ export default class GroupService {
     return groupSchema.parse(response.data);
   }
 
-  static async deleteGroup(groupId: number): Promise<void> {
+  static async deleteGroup(groupId: string): Promise<void> {
     const response = await api.delete(apiRoutes.group.byId(groupId));
     return response.data;
   }
@@ -59,7 +62,7 @@ export default class GroupService {
     groupId,
     data,
   }: {
-    groupId: number;
+    groupId: string;
     data: UpdateGroupForm;
   }): Promise<Group> {
     const response = await api.put(apiRoutes.group.byId(groupId), data);

@@ -1,42 +1,43 @@
 export const apiRoutes = {
   auth: {
-    register: '/auth/register',
-    login: '/auth/login',
-    logout: '/auth/logout',
-    check: '/auth/check',
-    refresh: '/auth/refresh',
+    register: '/register/',
+    login: '/login/',
+    logout: '/logout/',
+    check: '/check/',
+    refresh: '/refresh/',
   },
 
   group: {
     base: '/group',
-    byId: (id: number) => `/group/${id}`,
+    byId: (id: string) => `/group/${id}`,
     search: '/group/search',
     summary: '/group/summary/',
   },
 
   room: {
     base: '/room',
-    byId: (id: number) => `/room/${id}`,
-    buildings: '/room/buildings',
+    search: '/room/search',
+    byId: (id: string) => `/room/${id}`,
   },
 
   building: {
     base: '/building',
+    byId: (id: string) => `/building/${id}`,
   },
 
   subject: {
     base: '/subject',
-    byId: (id: number) => `/subject/${id}`,
+    byId: (id: string) => `/subject/${id}`,
   },
 
   teacher: {
     base: '/teacher',
-    byId: (id: number) => `/teacher/${id}`,
+    search: '/teacher/search',
+    byId: (id: string) => `/teacher/${id}`,
   },
 
-  schedule: {
-    base: '/schedule',
-    lessons: '/schedule/lessons',
-    byGroupId: (id: number) => `/schedule/lessons/${id}`,
+  lesson: {
+    base: '/lesson',
+    byId: (id: string) => `/lesson/${id}`,
   },
 };

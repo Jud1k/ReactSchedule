@@ -51,40 +51,74 @@ export const CreateTeacher = () => {
         onSubmit={handleSubmit((data) => createTeacherMutation.mutate(data))}
       >
         <FormInput
-          label="ФИО преподавателя"
+          label="Фамилия"
           type="text"
-          placeholder="Введите ФИО преподатаеля"
-          registration={register('name')}
-          error={errors.name?.message}
+          placeholder="Введите фамилию"
+          registration={register('last_name')}
+          errorText={errors.last_name?.message}
         />
         <FormInput
-          label="Email"
-          type="email"
-          placeholder="Введите email"
-          registration={register('email')}
-          error={errors.email?.message}
+          label="Имя"
+          type="text"
+          placeholder="Введите имя"
+          registration={register('first_name')}
+          errorText={errors.first_name?.message}
         />
         <FormInput
-          label="Телефон"
+          label="Отчество"
           type="text"
-          placeholder="Введите телефон"
-          registration={register('phone')}
-          error={errors.phone?.message}
+          placeholder="Введите отчество"
+          registration={register('middle_name')}
+          errorText={errors.middle_name?.message}
         />
-        <FormSelect label="Кафедра" registration={register('department')}>
-          {DEPARTMENTS.map((depart) => (
-            <option key={depart} value={depart}>
-              {depart}
+        <div className="grid grid-cols-2 gap-4 w-full">
+          <FormInput
+            label="Email"
+            type="email"
+            placeholder="Введите email"
+            registration={register('email')}
+            errorText={errors.email?.message}
+          />
+          <FormInput
+            label="Телефон"
+            type="text"
+            placeholder="Введите телефон"
+            registration={register('phone')}
+            errorText={errors.phone?.message}
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-4 w-full">
+          <FormSelect
+            label="Кафедра"
+            registration={register('department')}
+            errorText={errors.department?.message}
+            defaultValue=""
+          >
+            <option value="" disabled>
+              Выберите кафедру
             </option>
-          ))}
-        </FormSelect>
-        <FormSelect label="Степень" registration={register('title')}>
-          {TITLES.map((title) => (
-            <option key={title} value={title}>
-              {title}
+            {DEPARTMENTS.map((depart) => (
+              <option key={depart} value={depart}>
+                {depart}
+              </option>
+            ))}
+          </FormSelect>
+          <FormSelect
+            label="Степень"
+            registration={register('title')}
+            errorText={errors.title?.message}
+            defaultValue=""
+          >
+            <option value="" disabled>
+              Выберите степень
             </option>
-          ))}
-        </FormSelect>
+            {TITLES.map((title) => (
+              <option key={title} value={title}>
+                {title}
+              </option>
+            ))}
+          </FormSelect>
+        </div>
         <Button
           type="submit"
           disabled={createTeacherMutation.isPending}

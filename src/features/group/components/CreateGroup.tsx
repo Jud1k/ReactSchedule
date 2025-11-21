@@ -59,7 +59,7 @@ export const CreateGroup = () => {
         <FormInput
           label="Название группы"
           placeholder="Введите название группы"
-          error={errors.name?.message}
+          errorText={errors.name?.message}
           registration={register('name')}
         />
         <FormSelect
@@ -67,8 +67,12 @@ export const CreateGroup = () => {
           registration={register('course', {
             setValueAs: (value) => (value === '' ? undefined : Number(value)),
           })}
-          error={errors.course?.message}
+          errorText={errors.course?.message}
+          defaultValue=""
         >
+          <option value="" disabled>
+            Выберите курс
+          </option>
           {COURSES.map((course) => (
             <option key={course} value={course}>
               {course}
@@ -78,8 +82,12 @@ export const CreateGroup = () => {
         <FormSelect
           label="Институт"
           registration={register('institute')}
-          error={errors.institute?.message}
+          errorText={errors.institute?.message}
+          defaultValue=""
         >
+          <option value="" disabled>
+            Выберите институт
+          </option>
           {INSTITUTIES.map((inst) => (
             <option key={inst} value={inst}>
               {inst}

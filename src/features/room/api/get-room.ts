@@ -2,7 +2,7 @@ import { queryOptions, useQuery } from '@tanstack/react-query';
 import RoomService from './service';
 import { QueryConfig } from '@/lib/react-query';
 
-export const getRoomQueryOptions = (roomId: number) => {
+export const getRoomQueryOptions = (roomId: string) => {
   return queryOptions({
     queryKey: ['rooms', roomId],
     queryFn: () => RoomService.fetchRoom(roomId),
@@ -10,7 +10,7 @@ export const getRoomQueryOptions = (roomId: number) => {
 };
 
 type useRoomOptions = {
-  roomId: number;
+  roomId: string;
   queryConfig?: QueryConfig<typeof getRoomQueryOptions>;
 };
 
