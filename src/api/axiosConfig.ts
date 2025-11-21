@@ -14,7 +14,7 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -38,9 +38,10 @@ api.interceptors.response.use(
           `${API_URL}${apiRoutes.auth.refresh}`,
           { withCredentials: true },
         );
-        localStorage.setItem('token', response.data.access_token);
+        localStorage.setItem('access_token', response.data.access_token);
         return api.request(originalRequest);
       } catch (e: unknown) {
+        localStorage.removeItem('access_token');
         console.log(e);
       }
     }

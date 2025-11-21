@@ -1,40 +1,26 @@
-import { Link, useNavigate } from 'react-router';
-import { useStores } from '@/app/root-store-context';
+import { Link } from 'react-router';
 import { observer } from 'mobx-react-lite';
 import { useForm } from 'react-hook-form';
-import {
-  LoginFormData,
-  RegisterFormData,
-  registerFormSchema,
-} from '../api/auth-user';
+import { RegisterFormData, registerFormSchema } from '../api/auth-user';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormInput } from '@/components/generic/FormInput';
+import useAuth from '@/hooks/useAuth';
 
 export const RegisterForm = observer(() => {
-  const { authStore } = useStores();
-  const navigate = useNavigate();
+  const { registerMutation, loginMutation } = useAuth();
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setError,
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
     mode: 'onChange',
   });
 
-  const onSubmit = async (data: LoginFormData) => {
-    try {
-      await authStore.register(data.email, data.password);
-      await authStore.login(data.email, data.password);
-      navigate('/');
-    } catch {
-      setError('root', {
-        type: 'manual',
-        message: authStore.error || 'Smthg wrong',
-      });
-    }
+  const onSubmit = async (data: RegisterFormData) => {
+    await registerMutation.mutateAsync(data);
+    await loginMutation.mutateAsync(data);
   };
 
   return (

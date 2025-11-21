@@ -12,6 +12,7 @@ import SubjectPage from '../pages/admin/SubjectPage';
 import TeacherPage from '../pages/admin/TeacherPage';
 import RoomPage from '../pages/admin/RoomPage';
 import LessonPage from '@/pages/admin/LessonPage';
+import PublicOnlyRoute from '@/components/PublicOnlyRoute';
 
 const RoutesProvider = () => {
   return (
@@ -19,15 +20,27 @@ const RoutesProvider = () => {
       <Route element={<Layout />}>
         <Route index element={<HomePage />} />
         <Route path="schedule" element={<SchedulePage />} />
-        <Route path="login" element={<LoginPage />} />
+        <Route
+          path="login"
+          element={
+            <PublicOnlyRoute>
+              <LoginPage />
+            </PublicOnlyRoute>
+          }
+        />
       </Route>
-
-      <Route path="register" element={<RegisterPage />} />
-
+      <Route
+        path="register"
+        element={
+          <PublicOnlyRoute>
+            <RegisterPage />
+          </PublicOnlyRoute>
+        }
+      />
       <Route
         path="admin"
         element={
-          <ProtectedRoute required_role="user">
+          <ProtectedRoute requiredRole="user">
             <AdminLayout />
           </ProtectedRoute>
         }

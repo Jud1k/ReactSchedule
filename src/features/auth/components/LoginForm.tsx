@@ -1,34 +1,27 @@
-import { useStores } from '@/app/root-store-context';
-import { Link, useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { LoginFormData, loginFormSchema } from '../api/auth-user';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormInput } from '@/components/generic/FormInput';
 import { observer } from 'mobx-react-lite';
+import useAuth from '@/hooks/useAuth';
+import { Link } from 'react-router';
 
 export const LoginForm = observer(() => {
-  const { authStore } = useStores();
-  const navigate = useNavigate();
+  const { loginMutation } = useAuth();
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setError,
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginFormSchema),
     mode: 'onChange',
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    try {
-      await authStore.login(data.email, data.password);
-      navigate('/');
-    } catch {
-      setError('root', {
-        type: 'manual',
-        message: authStore.error || 'Ошибка авторизации',
-      });
-    }
+    if (isSubmitting) return;
+
+    loginMutation.mutateAsync(data);
   };
 
   return (
@@ -66,7 +59,7 @@ export const LoginForm = observer(() => {
               <button
                 type="submit"
                 className="btn btn-primary w-full"
-                disabled={isSubmitting}
+                disabled={loginMutation.isPending}
               >
                 Войти
               </button>
