@@ -1,13 +1,14 @@
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { FormError } from './FormError';
 import { cn } from '@/lib/utils';
+import { InputHTMLAttributes } from 'react';
 
-interface InputFieldProps {
+interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
+  registration?: Partial<UseFormRegisterReturn>;
   type?: string;
   placeholder?: string;
-  error?: string;
-  registration: Partial<UseFormRegisterReturn>;
+  errorText?: string;
   className?: string;
 }
 
@@ -15,10 +16,11 @@ export const FormInput = ({
   label,
   type = 'text',
   placeholder,
-  error,
+  errorText,
   registration,
-  className = '',
-}: InputFieldProps) => {
+  className,
+  ...props
+}: FormInputProps) => {
   return (
     <div className={cn('form-control w-full', className)}>
       <label className="label">
@@ -29,12 +31,12 @@ export const FormInput = ({
         placeholder={placeholder}
         className={cn(
           'input input-bordered w-full mt-2',
-          error && 'input-error', // Правильное условие для ошибки
-          className,
+          errorText && 'input-error',
         )}
         {...registration}
+        {...props}
       ></input>
-      <FormError message={error} />
+      {errorText && <FormError message={errorText} />}
     </div>
   );
 };
