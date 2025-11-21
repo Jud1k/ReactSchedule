@@ -3,7 +3,7 @@ import { Delete } from '@/components/generic/Icons';
 import { useDeleteSubject } from '../api/delete-subject';
 
 interface DeleteSubjectProps {
-  subjectId: number;
+  subjectId: string;
 }
 
 export const DeleteSubject = ({ subjectId }: DeleteSubjectProps) => {
