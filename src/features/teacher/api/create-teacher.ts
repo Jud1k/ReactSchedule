@@ -4,11 +4,20 @@ import TeacherService from './service';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
 import { getTeachersQueryOptions } from './get-teachers';
+import { nullableString } from '@/lib/zod-types';
 
 export const createTeacherFormSchema = z.object({
-  name: z.string().min(5, 'Поле должно содержать минимум 5 символов'),
-  email: z.email().min(5, 'Поле должно содержать минимум 5 символов'),
-  phone: z.string().min(5, 'Поле должно содержать минимум 5 символов'),
+  first_name: z.string().min(5, 'Поле должно содержать минимум 5 символов'),
+  middle_name: nullableString(
+    z.string().min(5, 'Поле должно содержать минимум 5 символов'),
+  ),
+  last_name: z.string().min(5, 'Поле должно содержать минимум 5 символов'),
+  email: nullableString(
+    z.email().min(5, 'Поле должно содержать минимум 5 символов'),
+  ),
+  phone: nullableString(
+    z.string().min(5, 'Поле должно содержать минимум 5 символов'),
+  ),
   department: z.string().min(5, 'Поле должно содержать минимум 5 символов'),
   title: z.string().min(5, 'Поле должно содержать минимум 5 символов'),
 });
