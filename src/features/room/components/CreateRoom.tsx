@@ -17,6 +17,9 @@ import { useBuildings } from '../api/get-buildings';
 export const CreateRoom = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
+  const buildingsQuery = useBuildings({});
+  const buildings = buildingsQuery.data;
+
   const {
     register,
     handleSubmit,
@@ -40,9 +43,6 @@ export const CreateRoom = () => {
     },
   });
 
-  const buildingsQuery = useBuildings({});
-  const buildings = buildingsQuery.data;
-
   return (
     <Modal
       header="Добавить новую аудиторию"
@@ -64,13 +64,16 @@ export const CreateRoom = () => {
     >
       <form
         className="flex flex-col items-center justify-center space-y-4 w-full"
-        onSubmit={handleSubmit((data) => createRoomMutation.mutate(data))}
+        onSubmit={handleSubmit((data) => {
+          createRoomMutation.mutate(data);
+          console.log(data);
+        })}
       >
         <FormInput
           label="Название аудитории"
           placeholder="Введите название аудитории"
           registration={register('name')}
-          error={errors.name?.message}
+          errorText={errors.name?.message}
         />
         <FormInput
           label="Номер этажа"
@@ -79,7 +82,7 @@ export const CreateRoom = () => {
           registration={register('floor', {
             setValueAs: (value) => (value === undefined ? '' : Number(value)),
           })}
-          error={errors.floor?.message}
+          errorText={errors.floor?.message}
         />
         <FormInput
           label="Вместимость"
@@ -88,15 +91,19 @@ export const CreateRoom = () => {
           registration={register('capacity', {
             setValueAs: (value) => (value === undefined ? '' : Number(value)),
           })}
-          error={errors.capacity?.message}
+          errorText={errors.capacity?.message}
         />
         <FormSelect
           label="Корпус"
           registration={register('building_id', {
-            setValueAs: (value) => (value === undefined ? '' : Number(value)),
+            setValueAs: (value) => (value ? Number(value) : undefined),
           })}
-          error={errors.building_id?.message}
+          errorText={errors.building_id?.message}
+          defaultValue=""
         >
+          <option value="" disabled={true}>
+            Выберите корпус
+          </option>
           {buildings?.map((build) => (
             <option key={build.id} value={build.id}>
               {build.name}
