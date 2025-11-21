@@ -1,12 +1,11 @@
 import { Link } from 'react-router';
-import { observer } from 'mobx-react-lite';
 import { useForm } from 'react-hook-form';
 import { RegisterFormData, registerFormSchema } from '../api/auth-user';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormInput } from '@/components/generic/FormInput';
 import useAuth from '@/hooks/useAuth';
 
-export const RegisterForm = observer(() => {
+export const RegisterForm = () => {
   const { registerMutation, loginMutation } = useAuth();
 
   const {
@@ -84,4 +83,4 @@ export const RegisterForm = observer(() => {
       </div>
     </div>
   );
-});
+};

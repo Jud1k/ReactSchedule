@@ -2,11 +2,10 @@ import { useForm } from 'react-hook-form';
 import { LoginFormData, loginFormSchema } from '../api/auth-user';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormInput } from '@/components/generic/FormInput';
-import { observer } from 'mobx-react-lite';
 import useAuth from '@/hooks/useAuth';
 import { Link } from 'react-router';
 
-export const LoginForm = observer(() => {
+export const LoginForm = () => {
   const { loginMutation } = useAuth();
 
   const {
@@ -75,4 +74,4 @@ export const LoginForm = observer(() => {
       </div>
     </div>
   );
-});
+};
