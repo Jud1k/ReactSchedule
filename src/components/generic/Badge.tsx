@@ -11,7 +11,7 @@ type BadgeVariant =
   | 'warning'
   | 'error';
 
-type BadgeSize = 'sm' | 'md' | 'lg';
+type BadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 interface BadgeProps {
   children: React.ReactNode;
@@ -33,9 +33,11 @@ const variantStyles: Record<BadgeVariant, string> = {
 };
 
 const sizeStyles: Record<BadgeSize, string> = {
-  sm: 'badge-sm min-w-[70px] px-2',
-  md: 'badge-md min-w-[90px] px-3',
-  lg: 'badge-lg min-w-[110px] px-4',
+  xs: 'badge-xd',
+  sm: 'badge-sm',
+  md: 'badge-md',
+  lg: 'badge-lg',
+  xl: 'badge-xl',
 };
 
 export default function Badge({
