@@ -4,9 +4,9 @@ import z from 'zod';
 import { apiRoutes } from '@/api/apiRoutes';
 
 export const userSchema = z.object({
-  id: z.number(),
+  id: z.string(),
   email: z.email(),
-  role_name: z.string(),
+  role: z.string(),
 });
 
 export type User = z.infer<typeof userSchema>;
@@ -37,10 +37,14 @@ export default class AuthService {
     email: string;
     password: string;
   }): Promise<AuthResponse> {
-    const response = await api.post<AuthResponse>(apiRoutes.auth.login, {
-      email,
-      password,
-    });
+    const response = await api.post<AuthResponse>(
+      apiRoutes.auth.login,
+      {
+        username: email,
+        password: password,
+      },
+      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
+    );
     return authSchema.parse(response.data);
   }
 
