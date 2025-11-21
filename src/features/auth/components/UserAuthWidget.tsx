@@ -13,7 +13,7 @@ const UserAuthWidget = observer(() => {
       authStore.checkAuth();
     }
     return () => clearTimeout(timer);
-  }, []);
+  }, [authStore]);
 
   if (initLoad || authStore.isLoading) {
     return (

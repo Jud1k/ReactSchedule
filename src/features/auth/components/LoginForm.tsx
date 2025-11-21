@@ -4,8 +4,9 @@ import { useForm } from 'react-hook-form';
 import { LoginFormData, loginFormSchema } from '../api/auth-user';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormInput } from '@/components/generic/FormInput';
+import { observer } from 'mobx-react-lite';
 
-export default function LoginForm() {
+export const LoginForm = observer(() => {
   const { authStore } = useStores();
   const navigate = useNavigate();
   const {
@@ -22,7 +23,7 @@ export default function LoginForm() {
     try {
       await authStore.login(data.email, data.password);
       navigate('/');
-    } catch (error) {
+    } catch {
       setError('root', {
         type: 'manual',
         message: authStore.error || 'Ошибка авторизации',
@@ -51,14 +52,14 @@ export default function LoginForm() {
               label="Почта"
               type="email"
               placeholder="Введите почту"
-              error={errors.email?.message}
+              errorText={errors.email?.message}
               registration={register('email')}
             />
             <FormInput
               label="Пароль"
               type="password"
               placeholder="Введите пароль"
-              error={errors.password?.message}
+              errorText={errors.password?.message}
               registration={register('password')}
             />
             <div className="form-control mt-6 w-full max-w-xs">
@@ -81,4 +82,4 @@ export default function LoginForm() {
       </div>
     </div>
   );
-}
+});

@@ -10,7 +10,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormInput } from '@/components/generic/FormInput';
 
-export default observer(function RegisterForm() {
+export const RegisterForm = observer(() => {
   const { authStore } = useStores();
   const navigate = useNavigate();
 
@@ -29,10 +29,10 @@ export default observer(function RegisterForm() {
       await authStore.register(data.email, data.password);
       await authStore.login(data.email, data.password);
       navigate('/');
-    } catch (error) {
+    } catch {
       setError('root', {
         type: 'manual',
-        message: authStore.error || 'Ошибка регистрации',
+        message: authStore.error || 'Smthg wrong',
       });
     }
   };
@@ -59,21 +59,21 @@ export default observer(function RegisterForm() {
                 label="Почта"
                 type="email"
                 placeholder="Введите почту"
-                error={errors.email?.message}
+                errorText={errors.email?.message}
                 registration={register('email')}
               />
               <FormInput
                 label="Пароль"
                 type="password"
                 placeholder="Введите пароль"
-                error={errors.password?.message}
+                errorText={errors.password?.message}
                 registration={register('password')}
               />
               <FormInput
-                label="Почта"
+                label="Повторите пароль"
                 type="password"
                 placeholder="Повторите пароль"
-                error={errors.repeat_password?.message}
+                errorText={errors.repeat_password?.message}
                 registration={register('repeat_password')}
               />
             </div>
