@@ -30,6 +30,6 @@ export const useDeleteGroup = ({
       handleApiError(error);
     },
     ...restConfig,
-    mutationFn: (groupId: number) => GroupService.deleteGroup(groupId),
+    mutationFn: (groupId: string) => GroupService.deleteGroup(groupId),
   });
 };

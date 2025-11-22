@@ -16,7 +16,7 @@ export const groupArraySchema = z.array(groupSchema);
 export type Group = z.infer<typeof groupSchema>;
 
 export const groupSummarySchema = z.object({
-  id: z.number(),
+  id: z.number().transform((val) => val.toString()),
   name: z.string(),
   course: z.number(),
   institute: z.string(),
