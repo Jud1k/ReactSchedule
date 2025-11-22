@@ -1,6 +1,6 @@
 import { FormAutocomplete } from '@/components/generic/FormAutocomplete';
-import { FormAutocompleteItem } from '@/components/generic/FormAutocompleteItem';
-import { FormAutocompleteList } from '@/components/generic/FormAutocompleteList';
+import { ListItem } from '@/components/generic/ListItem';
+import { List } from '@/components/generic/List';
 import Spinner from '@/components/generic/Spinner';
 import { useRooms } from '@/features/room/api/get-rooms';
 import { useState } from 'react';
@@ -29,7 +29,7 @@ export default function AutocompleteRoom({
     return matchesrooms;
   });
 
-  const handleroomselect = (roomId: string, roomName: string) => {
+  const handleRoomselect = (roomId: string, roomName: string) => {
     onChange(roomName);
     onClick(roomId);
     setIsListOpen(false);
@@ -45,26 +45,26 @@ export default function AutocompleteRoom({
       setIsOpen={setIsListOpen}
     >
       {isListOpen && (rooms?.length ?? 0) > 0 && (
-        <FormAutocompleteList>
+        <List>
           {filtredrooms?.map((room) => (
-            <FormAutocompleteItem
-              itemKey={room.id}
-              onClick={() => handleroomselect(room.id, room.name)}
+            <ListItem
+              key={room.id}
+              onClick={() => handleRoomselect(room.id, room.name)}
             >
               {room.name}
-            </FormAutocompleteItem>
+            </ListItem>
           ))}
-        </FormAutocompleteList>
+        </List>
       )}
       {isListOpen && roomsQuery.isLoading && (
-        <FormAutocompleteList>
+        <List>
           <Spinner />
-        </FormAutocompleteList>
+        </List>
       )}
       {isListOpen && !roomsQuery.isLoading && rooms?.length === 0 && (
-        <FormAutocompleteList>
+        <List>
           <div className="p-3 text-center">Ничего не найдена</div>
-        </FormAutocompleteList>
+        </List>
       )}
     </FormAutocomplete>
   );

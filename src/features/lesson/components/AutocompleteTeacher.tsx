@@ -1,6 +1,6 @@
 import { FormAutocomplete } from '@/components/generic/FormAutocomplete';
-import { FormAutocompleteItem } from '@/components/generic/FormAutocompleteItem';
-import { FormAutocompleteList } from '@/components/generic/FormAutocompleteList';
+import { ListItem } from '@/components/generic/ListItem';
+import { List } from '@/components/generic/List';
 import Spinner from '@/components/generic/Spinner';
 import { useTeachers } from '@/features/teacher/api/get-teachers';
 import { useState } from 'react';
@@ -49,30 +49,30 @@ export const AutocompleteTeacher = ({
       onChange={(e) => onChange(e.target.value)}
     >
       {isListOpen && (teachers?.length ?? 0) > 0 && (
-        <FormAutocompleteList>
+        <List>
           {filteredTeachers?.map((teacher) => (
-            <FormAutocompleteItem
-              itemKey={teacher.id}
+            <ListItem
+              key={teacher.id}
               onClick={() => {
                 handleTeacherSelect(teacher.id, teacher.first_name);
               }}
             >
               {`${teacher.last_name} ${teacher.first_name} ${teacher.middle_name || ''}`}
-            </FormAutocompleteItem>
+            </ListItem>
           ))}
-        </FormAutocompleteList>
+        </List>
       )}
       {isListOpen && teachersQuery.isLoading && (
-        <FormAutocompleteList>
+        <List>
           <Spinner />
-        </FormAutocompleteList>
+        </List>
       )}
       {isListOpen &&
         !teachersQuery.isLoading &&
         filteredTeachers?.length === 0 && (
-          <FormAutocompleteList>
+          <List>
             <div className="p-3 text-center">Ничего не найдено</div>
-          </FormAutocompleteList>
+          </List>
         )}
     </FormAutocomplete>
   );

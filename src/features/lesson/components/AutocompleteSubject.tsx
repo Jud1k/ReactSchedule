@@ -1,6 +1,6 @@
 import { FormAutocomplete } from '@/components/generic/FormAutocomplete';
-import { FormAutocompleteItem } from '@/components/generic/FormAutocompleteItem';
-import { FormAutocompleteList } from '@/components/generic/FormAutocompleteList';
+import { ListItem } from '@/components/generic/ListItem';
+import { List } from '@/components/generic/List';
 import Spinner from '@/components/generic/Spinner';
 import { useSubjects } from '@/features/subject/api/get-subjects';
 import { useState } from 'react';
@@ -44,26 +44,26 @@ export default function AutocompleteSubject({
       setIsOpen={setIsListOpen}
     >
       {isListOpen && (subjects?.length ?? 0) > 0 && (
-        <FormAutocompleteList>
+        <List>
           {filtredSubjects?.map((subject) => (
-            <FormAutocompleteItem
-              itemKey={subject.id}
+            <ListItem
+              key={subject.id}
               onClick={() => handleSubjectSelect(subject.id, subject.name)}
             >
               {subject.name}
-            </FormAutocompleteItem>
+            </ListItem>
           ))}
-        </FormAutocompleteList>
+        </List>
       )}
       {isListOpen && subjectsQuery.isLoading && (
-        <FormAutocompleteList>
+        <List>
           <Spinner />
-        </FormAutocompleteList>
+        </List>
       )}
       {isListOpen && !subjectsQuery.isLoading && subjects?.length === 0 && (
-        <FormAutocompleteList>
+        <List>
           <div className="p-3 text-center">Ничего не найдена</div>
-        </FormAutocompleteList>
+        </List>
       )}
     </FormAutocomplete>
   );

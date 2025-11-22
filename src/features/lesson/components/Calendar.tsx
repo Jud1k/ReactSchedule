@@ -1,45 +1,57 @@
 import * as calendar from '../utils/calendar';
-import { useStores } from '@/app/root-store-context';
-import { observer } from 'mobx-react-lite';
 import useAppSearchParams from '@/hooks/useAppSearchParams';
 import { useEffect } from 'react';
 import { Button } from '@/components/generic/Button';
+import { useCalendar } from '@/context/CalendarProvider';
+import { monthNames, weekDayNames } from '../types/consts';
 
-export const Calendar = observer(() => {
-  const { calendarStore, scheduleStore } = useStores();
+export const Calendar = () => {
+  const {
+    resetToToday,
+    currentMonth,
+    currentYear,
+    setMonth,
+    setDate,
+    selectedDate,
+    hasLessonsOnDays,
+    setHasLessonsOnDays,
+  } = useCalendar();
   const { updateParams, getParam } = useAppSearchParams();
-  const monthData = calendar.getMonthData(
-    calendarStore.currentYear,
-    calendarStore.currentMonth,
-  );
+  const monthData = calendar.getMonthData(currentYear, currentMonth);
   const monthId = getParam('month');
 
   useEffect(() => {
     if (monthId) {
-      calendarStore.setMonth(Number(monthId));
+      setMonth(Number(monthId));
     } else {
-      calendarStore.resetToToday();
+      setHasLessonsOnDays([]);
+      resetToToday();
     }
-  }, [calendarStore, monthId]);
+  }, [monthId, resetToToday, setHasLessonsOnDays, setMonth]);
 
   const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    calendarStore.setMonth(Number(e.target.value));
+    setMonth(Number(e.target.value));
     updateParams({ month: e.target.value });
   };
 
   const handleDateClick = (date: Date) => {
-    calendarStore.setDate(date);
+    setDate(date);
+  };
+
+  const hasLessonsForDay = (date: Date): boolean => {
+    const dayOfWeek = date.getDay();
+    return hasLessonsOnDays.includes(dayOfWeek);
   };
 
   return (
     <div className="calendar">
       <header>
         <select
-          value={calendarStore.currentMonth}
+          value={currentMonth}
           onChange={handleMonthChange}
           className="select select-success w-full"
         >
-          {calendarStore.monthNames.map((name, index) => (
+          {monthNames.map((name, index) => (
             <option key={name} value={index}>
               {name}
             </option>
@@ -50,7 +62,7 @@ export const Calendar = observer(() => {
         <table className="table w-full border-separate border-spacing-y-3">
           <thead>
             <tr>
-              {calendarStore.weekDayNames.map((day) => (
+              {weekDayNames.map((day) => (
                 <th key={day} className="p-1 text-base-content">
                   {day}
                 </th>
@@ -65,17 +77,11 @@ export const Calendar = observer(() => {
                     {date && (
                       <Button
                         className={`h-10 w-10 ${
-                          calendar.areEqual(date, calendarStore.selectedDate)
+                          calendar.areEqual(date, selectedDate)
                             ? 'border-accent'
                             : ''
                         }`}
-                        variant={
-                          scheduleStore.lessons.some(
-                            (lesson) => date.getDay() === lesson.day_of_week,
-                          )
-                            ? 'base'
-                            : 'default'
-                        }
+                        variant={hasLessonsForDay(date) ? 'base' : 'default'}
                         onClick={() => {
                           handleDateClick(date);
                         }}
@@ -92,4 +98,4 @@ export const Calendar = observer(() => {
       </div>
     </div>
   );
-});
+};

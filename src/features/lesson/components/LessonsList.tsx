@@ -1,41 +1,23 @@
-import { LessonCard } from './LessonCard';
-import { observer } from 'mobx-react-lite';
-import { useStores } from '@/app/root-store-context';
-import { ScheduleType, TIME_SLOTS } from '../types/consts';
-import Badge from '@/components/generic/Badge';
 import useAppSearchParams from '@/hooks/useAppSearchParams';
+import { ScheduleType } from '../types/consts';
+import { GroupLessonsList } from './GroupLessonsList';
+import { TeacherLessonsList } from './TeacherLessonsList';
+import { RoomLessonsList } from './RoomLessonsList';
 
-export const LessonsList = observer(() => {
-  const { scheduleStore, calendarStore } = useStores();
+export const LessonsList = () => {
   const { getParam } = useAppSearchParams();
 
-  const hasSelectedEntity =
-    getParam(ScheduleType.GROUP) ||
-    getParam(ScheduleType.TEACHER) ||
-    getParam(ScheduleType.ROOM);
+  const currentGroup = getParam(ScheduleType.GROUP);
+  const currentTeacher = getParam(ScheduleType.TEACHER);
+  const currentRoom = getParam(ScheduleType.ROOM);
 
-  const filtredLessons = scheduleStore.getFiltredLessons(
-    calendarStore.selectedDayWeek,
-  );
-  if (!hasSelectedEntity) {
+  if (currentGroup) {
+    return <GroupLessonsList groupId={currentGroup} />;
+  } else if (currentTeacher) {
+    return <TeacherLessonsList teacherId={currentTeacher} />;
+  } else if (currentRoom) {
+    return <RoomLessonsList roomId={currentRoom} />;
+  } else {
     return null;
   }
-
-  return (
-    <div className="px-6">
-      <div className="flex flex-col gap-4">
-        {TIME_SLOTS.map((timeSlot) => {
-          const lessonForSlot = filtredLessons.find(
-            (lesson) => lesson.time_id === timeSlot.id,
-          );
-          return (
-            <div key={timeSlot.id} className="flex flex-col gap-2">
-              <Badge size="lg">{timeSlot.duration}</Badge>
-              {lessonForSlot && <LessonCard lesson={lessonForSlot} />}
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-});
+};

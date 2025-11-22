@@ -1,6 +1,6 @@
 import { FormAutocomplete } from '@/components/generic/FormAutocomplete';
-import { FormAutocompleteItem } from '@/components/generic/FormAutocompleteItem';
-import { FormAutocompleteList } from '@/components/generic/FormAutocompleteList';
+import { ListItem } from '@/components/generic/ListItem';
+import { List } from '@/components/generic/List';
 import Spinner from '@/components/generic/Spinner';
 import { useGroups } from '@/features/group/api/get-groups';
 import { useState } from 'react';
@@ -44,26 +44,26 @@ export const AutocompleteGroup = ({
       setIsOpen={setIsListOpen}
     >
       {isListOpen && (groups?.length ?? 0) > 0 && (
-        <FormAutocompleteList>
+        <List>
           {filtredgroups?.map((group) => (
-            <FormAutocompleteItem
-              itemKey={group.id}
+            <ListItem
+              key={group.id}
               onClick={() => handlegroupselect(group.id, group.name)}
             >
               {group.name}
-            </FormAutocompleteItem>
+            </ListItem>
           ))}
-        </FormAutocompleteList>
+        </List>
       )}
       {isListOpen && groupsQuery.isLoading && (
-        <FormAutocompleteList>
+        <List>
           <Spinner />
-        </FormAutocompleteList>
+        </List>
       )}
       {isListOpen && !groupsQuery.isLoading && groups?.length === 0 && (
-        <FormAutocompleteList>
+        <List>
           <div className="p-3 text-center">Ничего не найдена</div>
-        </FormAutocompleteList>
+        </List>
       )}
     </FormAutocomplete>
   );
